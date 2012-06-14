@@ -32,11 +32,11 @@ import org.jdom2.input.SAXBuilder;
 import ch.enterag.utils.zip.EntryInputStream;
 import ch.enterag.utils.zip.FileEntry;
 import ch.enterag.utils.zip.Zip64File;
-import ch.kostceco.tools.siardval.exception.module.ValidationEcolumnException;
+import ch.kostceco.tools.siardval.exception.module.ValidationFrowException;
 import ch.kostceco.tools.siardval.service.ConfigurationService;
 import ch.kostceco.tools.siardval.validation.ValidationModuleImpl;
 import ch.kostceco.tools.siardval.validation.bean.SiardTable;
-import ch.kostceco.tools.siardval.validation.module.ValidationEcolumnModule;
+import ch.kostceco.tools.siardval.validation.module.ValidationFrowModule;
 
 /**
  * The module <code>ValidationEcolumnModule</code> validates the columns 
@@ -74,7 +74,7 @@ import ch.kostceco.tools.siardval.validation.module.ValidationEcolumnModule;
  * @author       Olivier Debenath
  */
 
-public class ValidationFrowModuleImpl extends ValidationModuleImpl implements ValidationEcolumnModule {
+public class ValidationFrowModuleImpl extends ValidationModuleImpl implements ValidationFrowModule {
     /*Validation parameters*/
 	private boolean verboseMode;
 	/*Service related properties*/
@@ -120,7 +120,7 @@ public class ValidationFrowModuleImpl extends ValidationModuleImpl implements Va
     */
 	@SuppressWarnings("finally")
 	@Override
-	public boolean validate(File siardDatei) throws ValidationEcolumnException {
+	public boolean validate(File siardDatei) throws ValidationFrowException {
 		 //Validation parameters
 		 this.setVerboseMode(false);
 		 System.out.println(this.isVerboseMode());
