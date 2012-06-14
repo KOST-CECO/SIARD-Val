@@ -42,6 +42,7 @@ import ch.kostceco.tools.siardval.validation.module.ValidationFrowModule;
 import ch.kostceco.tools.siardval.validation.module.ValidationHcontentModule;
 import ch.kostceco.tools.siardval.validation.module.ValidationIrecognitionModule;
 import ch.kostceco.tools.siardval.validation.module.ValidationJsurplusFilesModule;
+
 //import ch.kostceco.tools.siardval.validation.module.ValidationKconstraintModule;
 
 /**
@@ -71,6 +72,7 @@ public class Controller implements MessageConstants
 	private ValidationHcontentModule			validationHcontentModule;
 	private ValidationIrecognitionModule		validationIrecognitionModule;
 	private ValidationJsurplusFilesModule		validationJsurplusFilesModule;
+
 	// private ValidationKconstraintModule validationKconstraintModule;
 
 	public ValidationAzipModule getValidationAzipModule()
