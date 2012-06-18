@@ -783,23 +783,27 @@ public class ValidationEcolumnModuleImpl extends ValidationModuleImpl implements
 		boolean successfullyCommitted = false;
 		String me = "[E.0.4] pickMetadataXML (Properties properties) ";
 		//Initializing validation Logging
-	    StringBuilder validationLog = new StringBuilder();
+		StringBuilder validationLog = new StringBuilder();
+		StringBuilder pathToMetadataXML = new StringBuilder();
+		pathToMetadataXML.append(this.getConfigurationService().getPathToWorkDir());
+		pathToMetadataXML.append(File.separator);
+		pathToMetadataXML.append(properties.getProperty("module.e.siard.path.to.header"));
+		pathToMetadataXML.append(File.separator);
+		pathToMetadataXML.append(properties.getProperty("module.e.siard.metadata.xml"));
 		HashMap<String, File> siardFiles = this.getSiardFiles();
-		String pathToMetadataXML = this.getConfigurationService().getPathToWorkDir();
-		pathToMetadataXML = pathToMetadataXML+properties.getProperty("module.e.siard.description");
-		File metadataXML = siardFiles.get(pathToMetadataXML);
+		File metadataXML = siardFiles.get(pathToMetadataXML.toString());
 		//Retreave the metadata.xml from the SIARD archive and writes it back to the validation context
 		this.setMetadataXML(metadataXML);
 		//Checks whether the metadata.xml could be picked up
 		if (this.getMetadataXML() != null &&
-			properties != null) {
-			//Updating the validation log
-			String message = properties.getProperty("successfully.executed");
-			validationLog.append(me + message);
-			successfullyCommitted = true;
+		properties != null) {
+		//Updating the validation log
+		String message = properties.getProperty("successfully.executed");
+		validationLog.append(me + message);
+		successfullyCommitted = true;
 		} else {
-			String message = "has failed";
-			validationLog.append(me + message);
+		String message = "has failed";
+		validationLog.append(me + message);
 		}
 		this.getValidationLog().append(validationLog);
 		return successfullyCommitted;
