@@ -529,13 +529,7 @@ public class ValidationEcolumnModuleImpl extends ValidationModuleImpl implements
 	}    
 	/*Trimming the search terms for column type validation*/
 	private String trimLeftSideType(String leftside, String delimiter) throws Exception {
-		int i = leftside.indexOf(delimiter);
-		if (i > -1) {
-			String trimmedLeftSideType = leftside.substring(0, i);
-			return trimmedLeftSideType;
-		} else {
-			return leftside;
-		}
+		return (leftside.indexOf(delimiter) > -1) ? leftside.substring(0, leftside.indexOf(delimiter)) : leftside;
 	}
 	/*[E.0.3]
 	 *Extracting the SIARD packages*/
