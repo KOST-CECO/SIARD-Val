@@ -158,11 +158,11 @@ public class ValidationEcolumnModuleImpl extends ValidationModuleImpl implements
 						getTextResourceService().getText(MESSAGE_MODULE_E_INVALID_ATTRIBUTE_SEQUENCE));
 			 	}
 			 }
-		} catch (Exception je) {
+		} catch (Exception e) {
 			valid = false;
 			getMessageService().logError(
 			getTextResourceService().getText(MESSAGE_MODULE_E) +
-			getTextResourceService().getText(MESSAGE_DASHES) + je.getMessage());
+			getTextResourceService().getText(MESSAGE_DASHES) + e.getMessage());
 		} 
 		 return valid;
 	}
@@ -176,7 +176,8 @@ public class ValidationEcolumnModuleImpl extends ValidationModuleImpl implements
 	 *- Prepares the XML Access (without XPath)
 	 *- Prepares the table information from metadata.xml*/
 	@Override
-	public boolean prepareValidation(ValidationContext validationContext) throws IOException, JDOMException, Exception {
+	public boolean prepareValidation(ValidationContext validationContext) 
+			throws IOException, JDOMException, Exception {
 		//All over preparation flag
 		boolean prepared = true;
 		//Load the Java properties to the validation context
@@ -208,7 +209,6 @@ public class ValidationEcolumnModuleImpl extends ValidationModuleImpl implements
 		}
 		//Pick the metadata.xml and load it to the validation context
 		boolean metadataXMLpicked = pickMetadataXML(validationContext);
-		
 		if (metadataXMLpicked == false) {
 			prepared = false;
 			getMessageService().logError(
@@ -320,7 +320,9 @@ public class ValidationEcolumnModuleImpl extends ValidationModuleImpl implements
 			}	
 			if (validTable == false) {
 				namesOfInvalidTables.append((namesOfInvalidTables.length() > 0) ? ", " : "");
-				namesOfInvalidTables.append(siardTable.getTableName() );
+				namesOfInvalidTables.append(siardTable.getTableName());
+				namesOfInvalidTables.append(properties.
+						getProperty("module.e.siard.table.xsd.file.extension"));
 				namesOfInvalidTables.append("(");
 				namesOfInvalidTables.append(namesOfInvalidColumns);
 				namesOfInvalidTables.append(")");
@@ -380,7 +382,6 @@ public class ValidationEcolumnModuleImpl extends ValidationModuleImpl implements
 					validDatabase = false;
 					namesOfInvalidColumns.append((namesOfInvalidColumns.length() > 0) ? ", " : "");
 					namesOfInvalidColumns.append(columnName + "{" + expectedType + "}");
-					System.out.println("Debug: " + expectedType);
 				} else if (!expectedType.equalsIgnoreCase(rightSide) && expectedType != null) {
 					validTable = false;
 					validDatabase = false;
@@ -393,7 +394,9 @@ public class ValidationEcolumnModuleImpl extends ValidationModuleImpl implements
 			}
 			if (validTable == false) {
 				namesOfInvalidTables.append((namesOfInvalidTables.length() > 0) ? ", " : "");
-				namesOfInvalidTables.append(siardTable.getTableName() );
+				namesOfInvalidTables.append(siardTable.getTableName());
+				namesOfInvalidTables.append(properties.
+						getProperty("module.e.siard.table.xsd.file.extension"));
 				namesOfInvalidTables.append("(");
 				namesOfInvalidTables.append(namesOfInvalidColumns);
 				namesOfInvalidTables.append(")");
