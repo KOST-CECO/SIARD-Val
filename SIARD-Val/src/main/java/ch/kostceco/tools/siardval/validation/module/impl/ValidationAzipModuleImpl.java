@@ -1,6 +1,6 @@
 /*== SIARD-Val ===================================================================================
 The SIARD-Val application is used for validate SIARD-Files. 
-Copyright (C) 2012 Claire RÃ¶thlisberger (KOST-CECO), Martin Kaiser (KOST-CECO), Christian Eugster,
+Copyright (C) 2012 Claire Röthlisberger (KOST-CECO), Martin Kaiser (KOST-CECO), Christian Eugster,
 Olivier Debenath
 --------------------------------------------------------------------------------------------------
 SIARD-Val is a development of the KOST-CECO. All rights rest with the KOST-CECO. 
@@ -32,12 +32,12 @@ import ch.enterag.utils.zip.FileEntry;
 
 /**
  * Validierungsschritt A (Lesbarkeit) Kann die SIARD-Datei gelesen werden? valid
- * --> lesbare und nicht passwortgeschÃ¼tzte ZIP-Datei oder ZIP64-Datei valid -->
+ * --> lesbare und nicht passwortgeschützte ZIP-Datei oder ZIP64-Datei valid -->
  * unkomprimierte ZIP64-Datei oder unkomprimierte ZIP-Datei ==> Bei den Module
  * A, B, C und D wird die Validierung abgebrochen, sollte das Resulat invalid
  * sein!
  * 
- * @author Rc Claire RÃ¶thlisberger, KOST-CECO
+ * @author Rc Claire Röthlisberger, KOST-CECO
  */
 
 public class ValidationAzipModuleImpl extends ValidationModuleImpl implements
@@ -80,12 +80,14 @@ public class ValidationAzipModuleImpl extends ValidationModuleImpl implements
 			for ( i = 0; i != length; i++ )
 				;
 
-			// die beiden charArrays (soll und ist) mit einander vergleichen
+			// die beiden charArrays (soll und ist) mit einander
+			// vergleichen
 			char[] charArray1 = buffer;
 			char[] charArray2 = new char[] { 'P', 'K', c3, c4 };
 
 			if ( Arrays.equals( charArray1, charArray2 ) ) {
-				// hÃ¶chstwahrscheinlich ein ZIP da es mit 504B0304 respektive
+				// höchstwahrscheinlich ein ZIP da es mit
+				// 504B0304 respektive
 				// PK.. beginnt
 				valid = true;
 			} else {
@@ -121,14 +123,16 @@ public class ValidationAzipModuleImpl extends ValidationModuleImpl implements
 		Zip64File zf = null;
 		try {
 			Integer compressed = 0;
-			// Versuche das ZIP file zu Ã¶ffnen
+			// Versuche das ZIP file zu öffnen
 			zf = new Zip64File( siardDatei );
-			// auslesen der Komprimierungsmethode aus allen FileEntries der
+			// auslesen der Komprimierungsmethode aus allen
+			// FileEntries der
 			// zip(64)-Datei
 			List<FileEntry> fileEntryList = zf.getListFileEntries();
 			for ( FileEntry fileEntry : fileEntryList ) {
 				compressed = fileEntry.getMethod() + compressed;
-				// Compression method for uncompressed entries = STORED = 0
+				// Compression method for uncompressed entries =
+				// STORED = 0
 			}
 			// und wenn es klappt, gleich wieder schliessen
 			zf.close();

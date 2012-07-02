@@ -34,9 +34,11 @@ import ch.kostceco.tools.siardval.validation.bean.ValidationContext;
  * @author Do Olivier Debenath
  */
 
-public interface ValidationEcolumnModule extends ValidationModule {
+public interface ValidationEcolumnModule extends ValidationModule
+{
 	public boolean validate( File siardDatei )
 			throws ValidationEcolumnException;
-	public boolean prepareValidation(ValidationContext validationContext) 
+
+	public boolean prepareValidation( ValidationContext validationContext )
 			throws IOException, JDOMException, Exception;
 }

@@ -61,7 +61,7 @@ public class Controller implements MessageConstants
 	private ValidationBprimaryStructureModule	validationBprimaryStructureModule;
 	private ValidationCheaderModule				validationCheaderModule;
 	private ValidationDstructureModule			validationDstructureModule;
-	private ValidationEcolumnModule validationEcolumnModule;
+	private ValidationEcolumnModule				validationEcolumnModule;
 	// private ValidationFrowModule validationFrowModule;
 	// private ValidationGchecksumModule validationGchecksumModule;
 	private ValidationHcontentModule			validationHcontentModule;
@@ -329,31 +329,34 @@ public class Controller implements MessageConstants
 	{
 		boolean valid = true;
 
-		// Validation Step E (Spalten-Validierung) 
-		try { 
-			if (this.getValidationEcolumnModule().validate(siardDatei)) {
-				LOGGER.logInfo(getTextResourceService().getText(
+		// Validation Step E (Spalten-Validierung)
+		try {
+			if ( this.getValidationEcolumnModule().validate( siardDatei ) ) {
+				LOGGER.logInfo( getTextResourceService().getText(
 						MESSAGE_MODULE_VALID,
-						getTextResourceService().getText(MESSAGE_MODULE_E)));
+						getTextResourceService().getText( MESSAGE_MODULE_E ) ) );
 				this.getValidationEcolumnModule().getMessageService().print();
 			} else {
-				LOGGER.logInfo(getTextResourceService().getText(
-						MESSAGE_MODULE_INVALID, 
-						getTextResourceService().getText(MESSAGE_MODULE_E)) +
-						getTextResourceService().getText(MESSAGE_STEPERGEBNIS_E));
-				this.getValidationEcolumnModule().getMessageService().print(); 
-				valid = false; 
-			} 
-		} catch (ValidationEcolumnException e) {
-			LOGGER.logInfo(getTextResourceService().getText(MESSAGE_MODULE_INVALID_2ARGS,
-					getTextResourceService().getText(MESSAGE_MODULE_E), e.getMessage()));
-			this.getValidationEcolumnModule().getMessageService().print(); 
-			valid = false; 
-		} catch (Exception e) {
-			LOGGER.logInfo(getTextResourceService().getText(ERROR_UNKNOWN));
-			LOGGER.logError(e.getMessage()); return false; 
+				LOGGER.logInfo( getTextResourceService().getText(
+						MESSAGE_MODULE_INVALID,
+						getTextResourceService().getText( MESSAGE_MODULE_E ) )
+						+ getTextResourceService().getText(
+								MESSAGE_STEPERGEBNIS_E ) );
+				this.getValidationEcolumnModule().getMessageService().print();
+				valid = false;
+			}
+		} catch ( ValidationEcolumnException e ) {
+			LOGGER.logInfo( getTextResourceService().getText(
+					MESSAGE_MODULE_INVALID_2ARGS,
+					getTextResourceService().getText( MESSAGE_MODULE_E ),
+					e.getMessage() ) );
+			this.getValidationEcolumnModule().getMessageService().print();
+			valid = false;
+		} catch ( Exception e ) {
+			LOGGER.logInfo( getTextResourceService().getText( ERROR_UNKNOWN ) );
+			LOGGER.logError( e.getMessage() );
+			return false;
 		}
-		
 
 		/*
 		 * // Validation Step F (Zeilen-Validierung) try { if
@@ -512,11 +515,14 @@ public class Controller implements MessageConstants
 		return valid;
 	}
 
-	public ValidationEcolumnModule getValidationEcolumnModule() {
+	public ValidationEcolumnModule getValidationEcolumnModule()
+	{
 		return validationEcolumnModule;
 	}
 
-	public void setValidationEcolumnModule(ValidationEcolumnModule validationEcolumnModule) {
+	public void setValidationEcolumnModule(
+			ValidationEcolumnModule validationEcolumnModule )
+	{
 		this.validationEcolumnModule = validationEcolumnModule;
 	}
 }
