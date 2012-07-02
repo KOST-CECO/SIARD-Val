@@ -15,27 +15,23 @@ if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth F
 Boston, MA 02110-1301 USA or see <http://www.gnu.org/licenses/>.
 ==================================================================================================*/
 
-package ch.kostceco.tools.siardval.exception;
+package ch.kostceco.tools.siardval.validation.module;
+
+import java.io.File;
+
+import ch.kostceco.tools.siardval.exception.module.ValidationGtableException;
+import ch.kostceco.tools.siardval.validation.ValidationModule;
 
 /**
- * exception.module -->
+ * Validierungsschritt G (Tabellen-Validierung) Sind die Spaltennamen innerhalb
+ * der Tabelle einmalig
  * 
- * Superklasse aller Applikations-Exceptions
+ * @author ???
  */
 
-public class SIARDValException extends Exception
+public interface ValidationGtableModule extends ValidationModule
 {
 
-	private static final long	serialVersionUID	= -8666753675661449719L;
-
-	public SIARDValException()
-	{
-		super();
-	}
-
-	public SIARDValException( String message )
-	{
-		super( message );
-	}
+	public boolean validate( File siardDatei ) throws ValidationGtableException;
 
 }

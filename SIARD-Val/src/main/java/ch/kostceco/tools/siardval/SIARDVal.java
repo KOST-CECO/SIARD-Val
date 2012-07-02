@@ -1,7 +1,7 @@
 /*== SIARD-Val ===================================================================================
-The SIARD-Val v0.0.1 application is used for validate SIARD-Files. 
-Copyright (C) 2012 Claire Röthlisberger (KOST-CECO), Martin Kaiser (KOST-CECO), Christian Eugster,
-Olivier Debenath
+The SIARD-Val v0.0.2 application is used for validate SIARD-Files. 
+Copyright (C) 2012 Claire Röthlisberger (KOST-CECO), Christian Eugster, Olivier Debenath, 
+Peter Schneider (Staatsarchiv Aargau)
 --------------------------------------------------------------------------------------------------
 SIARD-Val is a development of the KOST-CECO. All rights rest with the KOST-CECO. 
 This application is free software: you can redistribute it and/or modify it under the 

@@ -47,11 +47,11 @@
 		<property name="messageService" ref="messageService" />
 		<property name="configurationService" ref="configurationService" />
 	</bean> 
-<!--	<bean id="validationFcolumnModule" class="ch.kostceco.tools.siardval.validation.module.impl.ValidationFcolumnModuleImpl">
+<!--	<bean id="validationFrowModule" class="ch.kostceco.tools.siardval.validation.module.impl.ValidationFrowModuleImpl">
 		<property name="textResourceService" ref="textResourceService" />
 		<property name="messageService" ref="messageService" />
 	</bean> -->
-<!--	<bean id="validationGrowModule" class="ch.kostceco.tools.siardval.validation.module.impl.ValidationGrowModuleImpl">
+<!--	<bean id="validationGtableModule" class="ch.kostceco.tools.siardval.validation.module.impl.ValidationGtableModuleImpl">
 		<property name="textResourceService" ref="textResourceService" />
 		<property name="messageService" ref="messageService" />
 	</bean> -->
@@ -69,7 +69,11 @@
 		<property name="messageService" ref="messageService" />
         <property name="configurationService" ref="configurationService" />
 	</bean>
-<!--	<bean id="validationKconstraintModule" class="ch.kostceco.tools.siardval.validation.module.impl.ValidationKconstraintModuleImpl">
+<!--	<bean id="validationKchecksumModule" class="ch.kostceco.tools.siardval.validation.module.impl.ValidationKchecksumModuleImpl">
+		<property name="textResourceService" ref="textResourceService" />
+		<property name="messageService" ref="messageService" />
+	</bean> -->
+<!--	<bean id="validationLconstraintModule" class="ch.kostceco.tools.siardval.validation.module.impl.ValidationLconstraintModuleImpl">
 		<property name="textResourceService" ref="textResourceService" />
 		<property name="messageService" ref="messageService" />
 	</bean> -->
@@ -91,12 +95,13 @@
 		<property name="validationCheaderModule" ref="validationCheaderModule" /> 
 		<property name="validationDstructureModule" ref="validationDstructureModule" />
 		<property name="validationEcolumnModule" ref="validationEcolumnModule" />
-<!--		<property name="validationFcolumnModule" ref="validationFcolumnModule" /> -->
-<!--		<property name="validationGrowModule" ref="validationGrowModule" /> -->
+<!--		<property name="validationFrowModule" ref="validationFrowModule" /> -->
+<!--		<property name="validationGtableModule" ref="validationGtableModule" /> -->
 		<property name="validationHcontentModule" ref="validationHcontentModule" />
 		<property name="validationIrecognitionModule" ref="validationIrecognitionModule" />
 		<property name="validationJsurplusFilesModule" ref="validationJsurplusFilesModule" />
-<!--		<property name="validationKconstraintModule" ref="validationKconstraintModule" /> -->
+<!--		<property name="validationKchecksumModule" ref="validationKchecksumModule" /> -->
+<!--		<property name="validationLconstraintModule" ref="validationLconstraintModule" /> -->
 	</bean>
 
 </beans>

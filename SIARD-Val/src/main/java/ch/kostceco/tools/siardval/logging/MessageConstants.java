@@ -1,7 +1,7 @@
 /*== SIARD-Val ===================================================================================
 The SIARD-Val application is used for validate SIARD-Files. 
-Copyright (C) 2012 Claire Röthlisberger (KOST-CECO), Martin Kaiser (KOST-CECO), Christian Eugster,
-Olivier Debenath
+Copyright (C) 2012 Claire Röthlisberger (KOST-CECO), Christian Eugster, Olivier Debenath, 
+Peter Schneider (Staatsarchiv Aargau)
 --------------------------------------------------------------------------------------------------
 SIARD-Val is a development of the KOST-CECO. All rights rest with the KOST-CECO. 
 This application is free software: you can redistribute it and/or modify it under the 
@@ -61,7 +61,8 @@ public interface MessageConstants
 	String	MESSAGE_MODULE_I								= "message.module.i";
 	String	MESSAGE_MODULE_J								= "message.module.j";
 	String	MESSAGE_MODULE_K								= "message.module.k";
-
+	String	MESSAGE_MODULE_L								= "message.module.l";
+	
 	String	MESSAGE_STEPERGEBNIS_A							= "message.stepergebnis.a";
 	String	MESSAGE_STEPERGEBNIS_B							= "message.stepergebnis.b";
 	String	MESSAGE_STEPERGEBNIS_C							= "message.stepergebnis.c";
@@ -73,6 +74,7 @@ public interface MessageConstants
 	String	MESSAGE_STEPERGEBNIS_I							= "message.stepergebnis.i";
 	String	MESSAGE_STEPERGEBNIS_J							= "message.stepergebnis.j";
 	String	MESSAGE_STEPERGEBNIS_K							= "message.stepergebnis.k";
+	String	MESSAGE_STEPERGEBNIS_L							= "message.stepergebnis.l";
 
 	String	MESSAGE_DASHES									= "message.dashes";
 

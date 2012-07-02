@@ -1,7 +1,7 @@
 /*== SIARD-Val ===================================================================================
 The SIARD-Val application is used for validate SIARD-Files. 
-Copyright (C) 2012 Claire Röthlisberger (KOST-CECO), Martin Kaiser (KOST-CECO), Christian Eugster,
-Olivier Debenath
+Copyright (C) 2012 Claire Röthlisberger (KOST-CECO), Christian Eugster, Olivier Debenath, 
+Peter Schneider (Staatsarchiv Aargau)
 --------------------------------------------------------------------------------------------------
 SIARD-Val is a development of the KOST-CECO. All rights rest with the KOST-CECO. 
 This application is free software: you can redistribute it and/or modify it under the 
@@ -15,26 +15,25 @@ if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth F
 Boston, MA 02110-1301 USA or see <http://www.gnu.org/licenses/>.
 ==================================================================================================*/
 
-package ch.kostceco.tools.siardval.exception.module;
+package ch.kostceco.tools.siardval.validation.module;
 
-import ch.kostceco.tools.siardval.exception.SIARDValException;
+import java.io.File;
 
-public class ValidationGchecksumException extends SIARDValException
+import ch.kostceco.tools.siardval.exception.module.ValidationKchecksumException;
+import ch.kostceco.tools.siardval.validation.ValidationModule;
+
+/**
+ * Validierungsschritt K (Prüfsummen-Validierung) Stimmt die Prüfsumme in
+ * (messageDigest) mit jener über den Ordner content überein? valid -->
+ * Prüfalorithmus = MD5 oder Prüfalorithmus = SHA-1
+ * 
+ * @author ???
+ */
+
+public interface ValidationKchecksumModule extends ValidationModule
 {
 
-	/**
-	 * @author Km Martin Kaiser, KOST-CECO
-	 */
-	private static final long	serialVersionUID	= 5060094531057249403L; // tbd
-
-	public ValidationGchecksumException()
-	{
-		super();
-	}
-
-	public ValidationGchecksumException( String message )
-	{
-		super( message );
-	}
+	public boolean validate( File siardDatei )
+			throws ValidationKchecksumException;
 
 }

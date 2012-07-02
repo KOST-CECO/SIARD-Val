@@ -15,25 +15,24 @@ if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth F
 Boston, MA 02110-1301 USA or see <http://www.gnu.org/licenses/>.
 ==================================================================================================*/
 
-package ch.kostceco.tools.siardval.exception;
+package ch.kostceco.tools.siardval.exception.module;
 
-/**
- * exception.module -->
- * 
- * Superklasse aller Applikations-Exceptions
- */
+import ch.kostceco.tools.siardval.exception.SIARDValException;
 
-public class SIARDValException extends Exception
+public class ValidationGtableException extends SIARDValException
 {
 
-	private static final long	serialVersionUID	= -8666753675661449719L;
+	/**
+	 * @author ???
+	 */
+	private static final long	serialVersionUID	= 5060094531057249403L; // tbd
 
-	public SIARDValException()
+	public ValidationGtableException()
 	{
 		super();
 	}
 
-	public SIARDValException( String message )
+	public ValidationGtableException( String message )
 	{
 		super( message );
 	}

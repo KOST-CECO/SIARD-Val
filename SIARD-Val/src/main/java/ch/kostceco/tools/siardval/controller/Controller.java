@@ -1,7 +1,7 @@
 /*== SIARD-Val ===================================================================================
 The SIARD-Val application is used for validate SIARD-Files. 
-Copyright (C) 2012 Claire Röthlisberger (KOST-CECO), Martin Kaiser (KOST-CECO), Christian Eugster,
-Olivier Debenath
+Copyright (C) 2012 Claire Röthlisberger (KOST-CECO), Christian Eugster, Olivier Debenath, 
+Peter Schneider (Staatsarchiv Aargau)
 --------------------------------------------------------------------------------------------------
 SIARD-Val is a development of the KOST-CECO. All rights rest with the KOST-CECO. 
 This application is free software: you can redistribute it and/or modify it under the 
@@ -63,12 +63,12 @@ public class Controller implements MessageConstants
 	private ValidationDstructureModule			validationDstructureModule;
 	private ValidationEcolumnModule				validationEcolumnModule;
 	// private ValidationFrowModule validationFrowModule;
-	// private ValidationGchecksumModule validationGchecksumModule;
+	// private ValidationGchecksumModule validationGtableModule;
 	private ValidationHcontentModule			validationHcontentModule;
 	private ValidationIrecognitionModule		validationIrecognitionModule;
 	private ValidationJsurplusFilesModule		validationJsurplusFilesModule;
-
-	// private ValidationKconstraintModule validationKconstraintModule;
+	// private ValidationGchecksumModule validationKchecksumModule;
+	// private ValidationKconstraintModule validationLconstraintModule;
 
 	public ValidationAzipModule getValidationAzipModule()
 	{
@@ -130,11 +130,11 @@ public class Controller implements MessageConstants
 	 */
 
 	/*
-	 * public ValidationGchecksumModule getValidationGchecksumModule() { return
-	 * validationGchecksumModule; } public void
-	 * setValidationGchecksumModule(ValidationGchecksumModule
-	 * validationGchecksumModule) { this.validationGchecksumModule =
-	 * validationGchecksumModule; }
+	 * public ValidationGchecksumModule getValidationGtableModule() { return
+	 * validationGtableModule; } public void
+	 * setValidationGtableModule(ValidationGtableModule
+	 * validationGtableModule) { this.validationGtableModule =
+	 * validationGtableModule; }
 	 */
 
 	public ValidationHcontentModule getValidationHcontentModule()
@@ -171,11 +171,19 @@ public class Controller implements MessageConstants
 	}
 
 	/*
-	 * public ValidationKconstraintModule getValidationKconstraintModule() {
-	 * return validationKconstraintModule; } public void
-	 * setValidationKconstraintModule(ValidationKconstraintModule
-	 * validationKconstraintModule) { this.validationKconstraintModule =
-	 * validationKconstraintModule; }
+	 * public ValidationGchecksumModule getValidationKchecksumModule() { return
+	 * validationKchecksumModule; } public void
+	 * setValidationKchecksumModule(ValidationKchecksumModule
+	 * validationKchecksumModule) { this.validationKchecksumModule =
+	 * validationKchecksumModule; }
+	 */
+
+	/*
+	 * public ValidationLconstraintModule getValidationLconstraintModule() {
+	 * return validationLconstraintModule; } public void
+	 * setValidationLconstraintModule(ValidationLconstraintModule
+	 * validationLconstraintModule) { this.validationLconstraintModule =
+	 * validationLconstraintModule; }
 	 */
 
 	public TextResourceService getTextResourceService()
@@ -380,21 +388,21 @@ public class Controller implements MessageConstants
 		 */
 
 		/*
-		 * // Validation Step G (Prüfsummen-Validierung) try { if
-		 * (this.getValidationGchecksumModule().validate(siardDatei)) {
+		 * // Validation Step G (Tabellen-Validierung) try { if
+		 * (this.getValidationGtableModule().validate(siardDatei)) {
 		 * LOGGER.logInfo(getTextResourceService().getText(MESSAGE_MODULE_VALID,
 		 * getTextResourceService().getText(MESSAGE_MODULE_G)));
-		 * this.getValidationGchecksumModule().getMessageService().print(); }
+		 * this.getValidationGtableModule().getMessageService().print(); }
 		 * else {
 		 * LOGGER.logInfo(getTextResourceService().getText(MESSAGE_MODULE_INVALID
 		 * , getTextResourceService().getText(MESSAGE_MODULE_G)) +
 		 * getTextResourceService().getText(MESSAGE_STEPERGEBNIS_G));
-		 * this.getValidationGchecksumModule().getMessageService().print();
-		 * valid = false; } } catch (ValidationGchecksumException e) {
+		 * this.getValidationGtableModule().getMessageService().print();
+		 * valid = false; } } catch (ValidationGtableException e) {
 		 * LOGGER.logInfo
 		 * (getTextResourceService().getText(MESSAGE_MODULE_INVALID_2ARGS,
 		 * getTextResourceService().getText(MESSAGE_MODULE_G), e.getMessage()));
-		 * this.getValidationGchecksumModule().getMessageService().print();
+		 * this.getValidationGtableModule().getMessageService().print();
 		 * valid = false; } catch (Exception e) {
 		 * LOGGER.logInfo(getTextResourceService().getText(ERROR_UNKNOWN));
 		 * LOGGER.logError(e.getMessage()); return false; }
@@ -492,21 +500,42 @@ public class Controller implements MessageConstants
 		}
 
 		/*
-		 * // Validation Step K (Constraint-Validierung) try { if
-		 * (this.getValidationKconstraintModule().validate(siardDatei)) {
+		 * // Validation Step K (Prüfsummen-Validierung) try { if
+		 * (this.getValidationKchecksumModule().validate(siardDatei)) {
 		 * LOGGER.logInfo(getTextResourceService().getText(MESSAGE_MODULE_VALID,
 		 * getTextResourceService().getText(MESSAGE_MODULE_K)));
-		 * this.getValidationKconstraintModule().getMessageService().print(); }
+		 * this.getValidationKchecksumModule().getMessageService().print(); }
 		 * else {
 		 * LOGGER.logInfo(getTextResourceService().getText(MESSAGE_MODULE_INVALID
 		 * , getTextResourceService().getText(MESSAGE_MODULE_K)) +
 		 * getTextResourceService().getText(MESSAGE_STEPERGEBNIS_K));
-		 * this.getValidationKconstraintModule().getMessageService().print();
-		 * valid = false; } } catch (ValidationKconstraintException e) {
+		 * this.getValidationKchecksumModule().getMessageService().print();
+		 * valid = false; } } catch (ValidationKchecksumException e) {
 		 * LOGGER.logInfo
 		 * (getTextResourceService().getText(MESSAGE_MODULE_INVALID_2ARGS,
 		 * getTextResourceService().getText(MESSAGE_MODULE_K), e.getMessage()));
-		 * this.getValidationKconstraintModule().getMessageService().print();
+		 * this.getValidationKchecksumModule().getMessageService().print();
+		 * valid = false; } catch (Exception e) {
+		 * LOGGER.logInfo(getTextResourceService().getText(ERROR_UNKNOWN));
+		 * LOGGER.logError(e.getMessage()); return false; }
+		 */
+
+		/*
+		 * // Validation Step L (Constraint-Validierung) try { if
+		 * (this.getValidationLconstraintModule().validate(siardDatei)) {
+		 * LOGGER.logInfo(getTextResourceService().getText(MESSAGE_MODULE_VALID,
+		 * getTextResourceService().getText(MESSAGE_MODULE_L)));
+		 * this.getValidationLconstraintModule().getMessageService().print(); }
+		 * else {
+		 * LOGGER.logInfo(getTextResourceService().getText(MESSAGE_MODULE_INVALID
+		 * , getTextResourceService().getText(MESSAGE_MODULE_L)) +
+		 * getTextResourceService().getText(MESSAGE_STEPERGEBNIS_L));
+		 * this.getValidationLconstraintModule().getMessageService().print();
+		 * valid = false; } } catch (ValidationLconstraintException e) {
+		 * LOGGER.logInfo
+		 * (getTextResourceService().getText(MESSAGE_MODULE_INVALID_2ARGS,
+		 * getTextResourceService().getText(MESSAGE_MODULE_L), e.getMessage()));
+		 * this.getValidationLconstraintModule().getMessageService().print();
 		 * valid = false; } catch (Exception e) {
 		 * LOGGER.logInfo(getTextResourceService().getText(ERROR_UNKNOWN));
 		 * LOGGER.logError(e.getMessage()); return false; }

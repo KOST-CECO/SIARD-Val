@@ -1,7 +1,7 @@
 /*== SIARD-Val ===================================================================================
 The SIARD-Val application is used for validate SIARD-Files. 
-Copyright (C) 2012 Claire Röthlisberger (KOST-CECO), Martin Kaiser (KOST-CECO), Christian Eugster,
-Olivier Debenath
+Copyright (C) 2012 Claire Röthlisberger (KOST-CECO), Christian Eugster, Olivier Debenath, 
+Peter Schneider (Staatsarchiv Aargau)
 --------------------------------------------------------------------------------------------------
 SIARD-Val is a development of the KOST-CECO. All rights rest with the KOST-CECO. 
 This application is free software: you can redistribute it and/or modify it under the 
@@ -19,7 +19,7 @@ package ch.kostceco.tools.siardval.exception.module;
 
 import ch.kostceco.tools.siardval.exception.SIARDValException;
 
-public class ValidationKconstraintException extends SIARDValException
+public class ValidationKchecksumException extends SIARDValException
 {
 
 	/**
@@ -27,12 +27,12 @@ public class ValidationKconstraintException extends SIARDValException
 	 */
 	private static final long	serialVersionUID	= 5060094531057249403L; // tbd
 
-	public ValidationKconstraintException()
+	public ValidationKchecksumException()
 	{
 		super();
 	}
 
-	public ValidationKconstraintException( String message )
+	public ValidationKchecksumException( String message )
 	{
 		super( message );
 	}
