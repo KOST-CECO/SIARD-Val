@@ -39,11 +39,10 @@ import ch.enterag.utils.zip.Zip64File;
 
 /**
  * Validierungsschritt C (Header-Validierung) Ist der header-Ordner valid? valid
- * --> metadata.xml valid zu metadata.xsd und beides vorhanden valid -->
- * metadata.xml valid zu original metadata.xsd Bemerkung --> zusätzliche Ordner
- * oder Dateien wie z.B. metadata.xls sind im header-Ordner erlaubt ==> Bei den
- * Module A, B, C und D wird die Validierung abgebrochen, sollte das Resulat
- * invalid sein!
+ * --> metadata.xml valid zu metadata.xsd und beides vorhanden Bemerkung -->
+ * zusätzliche Ordner oder Dateien wie z.B. metadata.xls sind im header-Ordner
+ * erlaubt ==> Bei den Module A, B, C und D wird die Validierung abgebrochen,
+ * sollte das Resulat invalid sein!
  * 
  * @author Rc Claire Röthlisberger, KOST-CECO
  */
@@ -228,18 +227,6 @@ public class ValidationCheaderModuleImpl extends ValidationModuleImpl implements
 							+ e.getMessage() );
 			return false;
 		}
-
-		// Ist metadata.xsd logisch gleich wie original metadata.xsd
-		/**
-		 * TODO: Original metadata.xsd: MD5 = f8b9ea8ee65aba41d7a9853046eff6cc
-		 * Kein Framework bekannt der einen logischen Vergleich machen könnte.
-		 * Ensprechend wird hier als erstes geprüft ob metadata.xsd in der
-		 * SIARD-Datei gleich ist wie die original metadata.xsd mit einem MD5
-		 * Hash von f8b9ea8ee65aba41d7a9853046eff6cc. Sollten die XSD-Dateien
-		 * nicht identisch sein, erfolgt eine Validierung mit Hilfe der original
-		 * metadata.xsd.
-		 */
-
 		return true;
 	}
 

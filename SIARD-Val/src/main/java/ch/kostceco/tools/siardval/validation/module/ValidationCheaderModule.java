@@ -24,11 +24,10 @@ import ch.kostceco.tools.siardval.validation.ValidationModule;
 
 /**
  * Validierungsschritt C (Header-Validierung) Ist der header-Ordner valid? valid
- * --> metadata.xml valid zu metadata.xsd und beides vorhanden valid -->
- * metadata.xml valid zu original metadata.xsd Bemerkung --> zusätzliche Ordner
- * oder Dateien wie z.B. metadata.xls sind im header-Ordner erlaubt ==> Bei den
- * Module A, B, C und D wird die Validierung abgebrochen, sollte das Resulat
- * invalid sein!
+ * --> metadata.xml valid zu metadata.xsd und beides vorhanden Bemerkung -->
+ * zusätzliche Ordner oder Dateien wie z.B. metadata.xls sind im header-Ordner
+ * erlaubt ==> Bei den Module A, B, C und D wird die Validierung abgebrochen,
+ * sollte das Resulat invalid sein!
  * 
  * @author Rc Claire Röthlisberger, KOST-CECO
  */
