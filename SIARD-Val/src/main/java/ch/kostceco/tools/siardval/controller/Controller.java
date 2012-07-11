@@ -23,6 +23,8 @@ import ch.kostceco.tools.siardval.exception.module.ValidationBprimaryStructureEx
 import ch.kostceco.tools.siardval.exception.module.ValidationCheaderException;
 import ch.kostceco.tools.siardval.exception.module.ValidationDstructureException;
 import ch.kostceco.tools.siardval.exception.module.ValidationEcolumnException;
+//import ch.kostceco.tools.siardval.exception.module.ValidationFrowException;
+//import ch.kostceco.tools.siardval.exception.module.ValidationGtableException;
 import ch.kostceco.tools.siardval.exception.module.ValidationHcontentException;
 import ch.kostceco.tools.siardval.exception.module.ValidationIrecognitionException;
 import ch.kostceco.tools.siardval.exception.module.ValidationJsurplusFilesException;
@@ -34,6 +36,8 @@ import ch.kostceco.tools.siardval.validation.module.ValidationBprimaryStructureM
 import ch.kostceco.tools.siardval.validation.module.ValidationCheaderModule;
 import ch.kostceco.tools.siardval.validation.module.ValidationDstructureModule;
 import ch.kostceco.tools.siardval.validation.module.ValidationEcolumnModule;
+//import ch.kostceco.tools.siardval.validation.module.ValidationFrowModule;
+//import ch.kostceco.tools.siardval.validation.module.ValidationGtableModule;
 import ch.kostceco.tools.siardval.validation.module.ValidationHcontentModule;
 import ch.kostceco.tools.siardval.validation.module.ValidationIrecognitionModule;
 import ch.kostceco.tools.siardval.validation.module.ValidationJsurplusFilesModule;
@@ -63,7 +67,7 @@ public class Controller implements MessageConstants
 	private ValidationDstructureModule			validationDstructureModule;
 	private ValidationEcolumnModule				validationEcolumnModule;
 	// private ValidationFrowModule validationFrowModule;
-	// private ValidationGchecksumModule validationGtableModule;
+	// private ValidationGtableModule validationGtableModule;
 	private ValidationHcontentModule			validationHcontentModule;
 	private ValidationIrecognitionModule		validationIrecognitionModule;
 	private ValidationJsurplusFilesModule		validationJsurplusFilesModule;
@@ -130,7 +134,7 @@ public class Controller implements MessageConstants
 	 */
 
 	/*
-	 * public ValidationGchecksumModule getValidationGtableModule() { return
+	 * public ValidationGtableModule getValidationGtableModule() { return
 	 * validationGtableModule; } public void
 	 * setValidationGtableModule(ValidationGtableModule
 	 * validationGtableModule) { this.validationGtableModule =
