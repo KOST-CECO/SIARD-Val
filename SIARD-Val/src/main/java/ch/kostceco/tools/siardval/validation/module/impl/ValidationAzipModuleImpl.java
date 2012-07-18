@@ -57,6 +57,17 @@ public class ValidationAzipModuleImpl extends ValidationModuleImpl implements
 
 		boolean valid = false;
 
+		// die Datei darf kein Directory sein
+		if ( siardDatei.isDirectory() ) {
+			getMessageService().logError(
+					getTextResourceService().getText( MESSAGE_MODULE_A )
+							+ getTextResourceService().getText( MESSAGE_DASHES )
+							+ getTextResourceService().getText(
+									ERROR_MODULE_A_NOFILE ) );
+			// Die zu validierende SIARD-Datei ist ein Ordner und keine ZIP-Datei.
+			return false;
+		}
+
 		// Die Datei muss mit PK.. beginnen
 		FileReader fr = null;
 		try {
@@ -105,17 +116,6 @@ public class ValidationAzipModuleImpl extends ValidationModuleImpl implements
 					getTextResourceService().getText( MESSAGE_MODULE_A )
 							+ getTextResourceService().getText( MESSAGE_DASHES )
 							+ e.getMessage() );
-			return false;
-		}
-
-		// die Datei darf kein Directory sein
-		if ( siardDatei.isDirectory() ) {
-			getMessageService().logError(
-					getTextResourceService().getText( MESSAGE_MODULE_A )
-							+ getTextResourceService().getText( MESSAGE_DASHES )
-							+ getTextResourceService().getText(
-									ERROR_MODULE_A_INCORRECTFILEENDING ) );
-			// Die SIARD-Datei ist kein ZIP.
 			return false;
 		}
 

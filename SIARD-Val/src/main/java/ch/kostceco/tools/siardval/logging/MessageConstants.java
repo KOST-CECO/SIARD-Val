@@ -85,6 +85,7 @@ public interface MessageConstants
 	String	ERROR_UNKNOWN									= "error.unknown";
 
 	// Modul A Meldungen
+	String	ERROR_MODULE_A_NOFILE							= "error.module.a.nofile";
 	String	ERROR_MODULE_A_INCORRECTFILEENDING				= "error.module.a.incorrectfileending";
 	String	ERROR_MODULE_A_DEFLATED							= "error.module.a.deflated";
 
