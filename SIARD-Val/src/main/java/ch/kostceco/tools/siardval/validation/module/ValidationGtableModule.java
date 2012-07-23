@@ -23,10 +23,11 @@ import ch.kostceco.tools.siardval.exception.module.ValidationGtableException;
 import ch.kostceco.tools.siardval.validation.ValidationModule;
 
 /**
- * Validierungsschritt G (Tabellen-Validierung) Sind die Spaltennamen innerhalb
- * der Tabelle einmalig
+ * Validierungsschritt G (Tabellen-Validierung) prüft, ob Spaltennamen innerhalb
+ * der Tabelle(n) resp. Tabellennamen innerhalb der Schema(s) und Schemanamen
+ * einmalig sind.
  * 
- * @author Sp Peter Schneider (Staatsarchiv Aargau)
+ * @author Sp Peter Schneider, Staatsarchiv Aargau
  */
 
 public interface ValidationGtableModule extends ValidationModule

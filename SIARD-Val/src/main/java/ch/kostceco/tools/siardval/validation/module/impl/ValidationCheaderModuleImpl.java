@@ -122,7 +122,7 @@ public class ValidationCheaderModuleImpl extends ValidationModuleImpl implements
 		try {
 			// Arbeitsverzeichnis zum Entpacken des Archivs erstellen
 			String pathToWorkDir = getConfigurationService().getPathToWorkDir();
-			/**
+			/*
 			 * Nicht vergessen in
 			 * "src/main/resources/config/applicationContext-services.xml" beim
 			 * entsprechenden Modul die property anzugeben: <property

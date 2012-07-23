@@ -51,10 +51,11 @@
 		<property name="textResourceService" ref="textResourceService" />
 		<property name="messageService" ref="messageService" />
 	</bean> -->
-<!--	<bean id="validationGtableModule" class="ch.kostceco.tools.siardval.validation.module.impl.ValidationGtableModuleImpl">
+	<bean id="validationGtableModule" class="ch.kostceco.tools.siardval.validation.module.impl.ValidationGtableModuleImpl">
 		<property name="textResourceService" ref="textResourceService" />
 		<property name="messageService" ref="messageService" />
-	</bean> -->
+		<property name="configurationService" ref="configurationService" />
+	</bean> 
 	<bean id="validationHcontentModule" class="ch.kostceco.tools.siardval.validation.module.impl.ValidationHcontentModuleImpl">
 		<property name="textResourceService" ref="textResourceService" />
 		<property name="messageService" ref="messageService" />
@@ -96,7 +97,7 @@
 		<property name="validationDstructureModule" ref="validationDstructureModule" />
 		<property name="validationEcolumnModule" ref="validationEcolumnModule" />
 <!--		<property name="validationFrowModule" ref="validationFrowModule" /> -->
-<!--		<property name="validationGtableModule" ref="validationGtableModule" /> -->
+		<property name="validationGtableModule" ref="validationGtableModule" /> 
 		<property name="validationHcontentModule" ref="validationHcontentModule" />
 		<property name="validationIrecognitionModule" ref="validationIrecognitionModule" />
 		<property name="validationJsurplusFilesModule" ref="validationJsurplusFilesModule" />

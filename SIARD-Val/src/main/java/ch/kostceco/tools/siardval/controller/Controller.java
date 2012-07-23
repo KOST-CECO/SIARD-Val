@@ -24,7 +24,7 @@ import ch.kostceco.tools.siardval.exception.module.ValidationCheaderException;
 import ch.kostceco.tools.siardval.exception.module.ValidationDstructureException;
 import ch.kostceco.tools.siardval.exception.module.ValidationEcolumnException;
 //import ch.kostceco.tools.siardval.exception.module.ValidationFrowException;
-//import ch.kostceco.tools.siardval.exception.module.ValidationGtableException;
+import ch.kostceco.tools.siardval.exception.module.ValidationGtableException;
 import ch.kostceco.tools.siardval.exception.module.ValidationHcontentException;
 import ch.kostceco.tools.siardval.exception.module.ValidationIrecognitionException;
 import ch.kostceco.tools.siardval.exception.module.ValidationJsurplusFilesException;
@@ -37,7 +37,7 @@ import ch.kostceco.tools.siardval.validation.module.ValidationCheaderModule;
 import ch.kostceco.tools.siardval.validation.module.ValidationDstructureModule;
 import ch.kostceco.tools.siardval.validation.module.ValidationEcolumnModule;
 //import ch.kostceco.tools.siardval.validation.module.ValidationFrowModule;
-//import ch.kostceco.tools.siardval.validation.module.ValidationGtableModule;
+import ch.kostceco.tools.siardval.validation.module.ValidationGtableModule;
 import ch.kostceco.tools.siardval.validation.module.ValidationHcontentModule;
 import ch.kostceco.tools.siardval.validation.module.ValidationIrecognitionModule;
 import ch.kostceco.tools.siardval.validation.module.ValidationJsurplusFilesModule;
@@ -67,12 +67,12 @@ public class Controller implements MessageConstants
 	private ValidationDstructureModule			validationDstructureModule;
 	private ValidationEcolumnModule				validationEcolumnModule;
 	// private ValidationFrowModule validationFrowModule;
-	// private ValidationGtableModule validationGtableModule;
+	private ValidationGtableModule				validationGtableModule;
 	private ValidationHcontentModule			validationHcontentModule;
 	private ValidationIrecognitionModule		validationIrecognitionModule;
 	private ValidationJsurplusFilesModule		validationJsurplusFilesModule;
-	// private ValidationGchecksumModule validationKchecksumModule;
-	// private ValidationKconstraintModule validationLconstraintModule;
+	// private ValidationKchecksumModule validationKchecksumModule;
+	// private ValidationLconstraintModule validationLconstraintModule;
 
 	public ValidationAzipModule getValidationAzipModule()
 	{
@@ -133,13 +133,16 @@ public class Controller implements MessageConstants
 	 * this.validationFrowModule = validationFrowModule; }
 	 */
 
-	/*
-	 * public ValidationGtableModule getValidationGtableModule() { return
-	 * validationGtableModule; } public void
-	 * setValidationGtableModule(ValidationGtableModule
-	 * validationGtableModule) { this.validationGtableModule =
-	 * validationGtableModule; }
-	 */
+	public ValidationGtableModule getValidationGtableModule()
+	{
+		return validationGtableModule;
+	}
+
+	public void setValidationGtableModule(
+			ValidationGtableModule validationGtableModule )
+	{
+		this.validationGtableModule = validationGtableModule;
+	}
 
 	public ValidationHcontentModule getValidationHcontentModule()
 	{
@@ -175,7 +178,7 @@ public class Controller implements MessageConstants
 	}
 
 	/*
-	 * public ValidationGchecksumModule getValidationKchecksumModule() { return
+	 * public ValidationKchecksumModule getValidationKchecksumModule() { return
 	 * validationKchecksumModule; } public void
 	 * setValidationKchecksumModule(ValidationKchecksumModule
 	 * validationKchecksumModule) { this.validationKchecksumModule =
@@ -391,26 +394,34 @@ public class Controller implements MessageConstants
 		 * LOGGER.logError(e.getMessage()); return false; }
 		 */
 
-		/*
-		 * // Validation Step G (Tabellen-Validierung) try { if
-		 * (this.getValidationGtableModule().validate(siardDatei)) {
-		 * LOGGER.logInfo(getTextResourceService().getText(MESSAGE_MODULE_VALID,
-		 * getTextResourceService().getText(MESSAGE_MODULE_G)));
-		 * this.getValidationGtableModule().getMessageService().print(); }
-		 * else {
-		 * LOGGER.logInfo(getTextResourceService().getText(MESSAGE_MODULE_INVALID
-		 * , getTextResourceService().getText(MESSAGE_MODULE_G)) +
-		 * getTextResourceService().getText(MESSAGE_STEPERGEBNIS_G));
-		 * this.getValidationGtableModule().getMessageService().print();
-		 * valid = false; } } catch (ValidationGtableException e) {
-		 * LOGGER.logInfo
-		 * (getTextResourceService().getText(MESSAGE_MODULE_INVALID_2ARGS,
-		 * getTextResourceService().getText(MESSAGE_MODULE_G), e.getMessage()));
-		 * this.getValidationGtableModule().getMessageService().print();
-		 * valid = false; } catch (Exception e) {
-		 * LOGGER.logInfo(getTextResourceService().getText(ERROR_UNKNOWN));
-		 * LOGGER.logError(e.getMessage()); return false; }
-		 */
+		// Validation Step G (Tabellen-Validierung)
+		try {
+			if ( this.getValidationGtableModule().validate( siardDatei ) ) {
+				LOGGER.logInfo( getTextResourceService().getText(
+						MESSAGE_MODULE_VALID,
+						getTextResourceService().getText( MESSAGE_MODULE_G ) ) );
+				this.getValidationGtableModule().getMessageService().print();
+			} else {
+				LOGGER.logInfo( getTextResourceService().getText(
+						MESSAGE_MODULE_INVALID,
+						getTextResourceService().getText( MESSAGE_MODULE_G ) )
+						+ getTextResourceService().getText(
+								MESSAGE_STEPERGEBNIS_G ) );
+				this.getValidationGtableModule().getMessageService().print();
+				valid = false;
+			}
+		} catch ( ValidationGtableException e ) {
+			LOGGER.logInfo( getTextResourceService().getText(
+					MESSAGE_MODULE_INVALID_2ARGS,
+					getTextResourceService().getText( MESSAGE_MODULE_G ),
+					e.getMessage() ) );
+			this.getValidationGtableModule().getMessageService().print();
+			valid = false;
+		} catch ( Exception e ) {
+			LOGGER.logInfo( getTextResourceService().getText( ERROR_UNKNOWN ) );
+			LOGGER.logError( e.getMessage() );
+			return false;
+		}
 
 		// Validation Step H (Content-Validierung)
 		try {

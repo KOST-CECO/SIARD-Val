@@ -75,6 +75,12 @@ public class ValidationJsurplusFilesModuleImpl extends ValidationModuleImpl
 		boolean valid = true;
 		try {
 			String pathToWorkDir = getConfigurationService().getPathToWorkDir();
+			/*
+			 * Nicht vergessen in
+			 * "src/main/resources/config/applicationContext-services.xml" beim
+			 * entsprechenden Modul die property anzugeben: <property
+			 * name="configurationService" ref="configurationService" />
+			 */
 			File metadataXml = new File( new StringBuilder( pathToWorkDir )
 					.append( File.separator ).append( "header" )
 					.append( File.separator ).append( "metadata.xml" )
