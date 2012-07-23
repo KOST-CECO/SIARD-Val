@@ -29,7 +29,7 @@ import ch.kostceco.tools.siardval.validation.bean.ValidationContext;
 /**
  * Validierungsschritt E (Spalten-Validierung) Wurden die Angaben aus
  * metadata.xml korrekt in die tableZ.xsd-Dateien übertragen? valid --> gleiche
- * Spaltendefinitionen (Reihenfolge, Anzahl, Type, Nullable)
+ * Spaltendefinitionen (Anzahl, Type, Nullable)
  * 
  * @author Do Olivier Debenath
  */

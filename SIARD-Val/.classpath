@@ -20,5 +20,6 @@
 	<classpathentry kind="lib" path="lib/spring-asm-3.0.0.RELEASE.jar"/>
 	<classpathentry kind="lib" path="lib/spring-expression-3.0.0.RELEASE.jar"/>
 	<classpathentry kind="lib" path="lib/jdom-2.0.0.jar"/>
+	<classpathentry kind="lib" path="external-sources/Zip64File-sources.jar" sourcepath="lib/zip64file-1.0.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
