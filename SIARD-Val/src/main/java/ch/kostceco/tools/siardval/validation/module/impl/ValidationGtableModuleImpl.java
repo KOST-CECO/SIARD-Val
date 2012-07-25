@@ -44,7 +44,6 @@ import ch.kostceco.tools.siardval.validation.module.ValidationGtableModule;
 public class ValidationGtableModuleImpl extends ValidationModuleImpl implements
 		ValidationGtableModule
 {
-
 	public ConfigurationService	configurationService;
 
 	public ConfigurationService getConfigurationService()
@@ -62,7 +61,6 @@ public class ValidationGtableModuleImpl extends ValidationModuleImpl implements
 	@Override
 	public boolean validate( File siardDatei ) throws ValidationGtableException
 	{
-
 		boolean valid = true;
 		try {
 			/*
@@ -77,11 +75,11 @@ public class ValidationGtableModuleImpl extends ValidationModuleImpl implements
 			 * entsprechenden Modul die property anzugeben: <property
 			 * name="configurationService" ref="configurationService" />
 			 */
-
 			File metadataXml = new File( new StringBuilder( pathToWorkDir )
 					.append( File.separator ).append( "header" )
 					.append( File.separator ).append( "metadata.xml" )
 					.toString() );
+
 			InputStream fin = new FileInputStream( metadataXml );
 			SAXBuilder builder = new SAXBuilder();
 			Document document = builder.build( fin );
@@ -131,7 +129,6 @@ public class ValidationGtableModuleImpl extends ValidationModuleImpl implements
 								.append( " / " ).append( columnName )
 								.toString());
 						listColumns.add( lsCol ); // concatenating Strings
-													// (column names)
 					}
 					listTables.add( lsTab ); // concatenating Strings (table
 												// names)
@@ -145,7 +142,11 @@ public class ValidationGtableModuleImpl extends ValidationModuleImpl implements
 					valid = false;
 					getMessageService().logError(
 							getTextResourceService().getText( MESSAGE_MODULE_G )
-									+ "Duplicate schemas found at " + value );
+									+ getTextResourceService().getText(
+											MESSAGE_DASHES )
+									+ getTextResourceService().getText(
+											MESSAGE_MODULE_G_DUPLICATE_SCHEMA,
+											value ) );
 				}
 			HashSet hashTables = new HashSet(); // check for duplicate tables
 			for ( Object value : listTables )
@@ -153,7 +154,11 @@ public class ValidationGtableModuleImpl extends ValidationModuleImpl implements
 					valid = false;
 					getMessageService().logError(
 							getTextResourceService().getText( MESSAGE_MODULE_G )
-									+ "Duplicate tables found at " + value );
+									+ getTextResourceService().getText(
+											MESSAGE_DASHES )
+									+ getTextResourceService().getText(
+											MESSAGE_MODULE_G_DUPLICATE_TABLE,
+											value ) );
 				}
 			HashSet hashColumns = new HashSet(); // check for duplicate columns
 			for ( Object value : listColumns )
@@ -161,7 +166,11 @@ public class ValidationGtableModuleImpl extends ValidationModuleImpl implements
 					valid = false;
 					getMessageService().logError(
 							getTextResourceService().getText( MESSAGE_MODULE_G )
-									+ "Duplicate columns found at " + value );
+									+ getTextResourceService().getText(
+											MESSAGE_DASHES )
+									+ getTextResourceService().getText(
+											MESSAGE_MODULE_G_DUPLICATE_COLUMN,
+											value ) );
 				}
 
 		} catch ( java.io.IOException ioe ) {
@@ -170,6 +179,7 @@ public class ValidationGtableModuleImpl extends ValidationModuleImpl implements
 					getTextResourceService().getText( MESSAGE_MODULE_G )
 							+ getTextResourceService().getText( MESSAGE_DASHES )
 							+ "IOException " + ioe.getMessage() );
+
 		} catch ( JDOMException e ) {
 			valid = false;
 			getMessageService().logError(

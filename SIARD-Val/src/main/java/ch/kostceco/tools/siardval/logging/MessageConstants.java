@@ -62,7 +62,7 @@ public interface MessageConstants
 	String	MESSAGE_MODULE_J								= "message.module.j";
 	String	MESSAGE_MODULE_K								= "message.module.k";
 	String	MESSAGE_MODULE_L								= "message.module.l";
-	
+
 	String	MESSAGE_STEPERGEBNIS_A							= "message.stepergebnis.a";
 	String	MESSAGE_STEPERGEBNIS_B							= "message.stepergebnis.b";
 	String	MESSAGE_STEPERGEBNIS_C							= "message.stepergebnis.c";
@@ -120,6 +120,11 @@ public interface MessageConstants
 	String	MESSAGE_MODULE_E_INVALID_ATTRIBUTE_SEQUENCE		= "message.module.e.attribute.sequence.validation.failed";
 	String	MESSAGE_MODULE_E_INVALID_ATTRIBUTE_TYPE			= "message.module.e.attribute.type.validation.failed";
 	String	MESSAGE_MODULE_E_VALIDATION_SKIPPED				= "message.module.e.validation.skipped";
+
+	// Modul G Meldungen
+	String	MESSAGE_MODULE_G_DUPLICATE_SCHEMA				= "message.module.g.duplicate.schema";
+	String	MESSAGE_MODULE_G_DUPLICATE_TABLE				= "message.module.g.duplicate.table";
+	String	MESSAGE_MODULE_G_DUPLICATE_COLUMN				= "message.module.g.duplicate.column";
 
 	// Modul H Meldungen
 	String	MESSAGE_MODULE_H_INVALID_FOLDER					= "message.module.h.invalid.folder";
