@@ -23,6 +23,7 @@ import ch.kostceco.tools.siardval.exception.module.ValidationBprimaryStructureEx
 import ch.kostceco.tools.siardval.exception.module.ValidationCheaderException;
 import ch.kostceco.tools.siardval.exception.module.ValidationDstructureException;
 import ch.kostceco.tools.siardval.exception.module.ValidationEcolumnException;
+import ch.kostceco.tools.siardval.exception.module.ValidationFrowException;
 //import ch.kostceco.tools.siardval.exception.module.ValidationFrowException;
 import ch.kostceco.tools.siardval.exception.module.ValidationGtableException;
 import ch.kostceco.tools.siardval.exception.module.ValidationHcontentException;
@@ -36,6 +37,7 @@ import ch.kostceco.tools.siardval.validation.module.ValidationBprimaryStructureM
 import ch.kostceco.tools.siardval.validation.module.ValidationCheaderModule;
 import ch.kostceco.tools.siardval.validation.module.ValidationDstructureModule;
 import ch.kostceco.tools.siardval.validation.module.ValidationEcolumnModule;
+import ch.kostceco.tools.siardval.validation.module.ValidationFrowModule;
 //import ch.kostceco.tools.siardval.validation.module.ValidationFrowModule;
 import ch.kostceco.tools.siardval.validation.module.ValidationGtableModule;
 import ch.kostceco.tools.siardval.validation.module.ValidationHcontentModule;
@@ -66,7 +68,7 @@ public class Controller implements MessageConstants
 	private ValidationCheaderModule				validationCheaderModule;
 	private ValidationDstructureModule			validationDstructureModule;
 	private ValidationEcolumnModule				validationEcolumnModule;
-	// private ValidationFrowModule validationFrowModule;
+	private ValidationFrowModule 				validationFrowModule;
 	private ValidationGtableModule				validationGtableModule;
 	private ValidationHcontentModule			validationHcontentModule;
 	private ValidationIrecognitionModule		validationIrecognitionModule;
@@ -372,6 +374,34 @@ public class Controller implements MessageConstants
 			LOGGER.logError( e.getMessage() );
 			return false;
 		}
+		
+		try {
+			if ( this.getValidationFrowModule().validate( siardDatei ) ) {
+				LOGGER.logInfo( getTextResourceService().getText(
+						MESSAGE_MODULE_VALID,
+						getTextResourceService().getText( MESSAGE_MODULE_F ) ) );
+				this.getValidationFrowModule().getMessageService().print();
+			} else {
+				LOGGER.logInfo( getTextResourceService().getText(
+						MESSAGE_MODULE_INVALID,
+						getTextResourceService().getText( MESSAGE_MODULE_F ) )
+						+ getTextResourceService().getText(
+								MESSAGE_STEPERGEBNIS_F ) );
+				this.getValidationFrowModule().getMessageService().print();
+				valid = false;
+			}
+		} catch ( ValidationFrowException e ) {
+			LOGGER.logInfo( getTextResourceService().getText(
+					MESSAGE_MODULE_INVALID_2ARGS,
+					getTextResourceService().getText( MESSAGE_MODULE_F ),
+					e.getMessage() ) );
+			this.getValidationFrowModule().getMessageService().print();
+			valid = false;
+		} catch ( Exception e ) {
+			LOGGER.logInfo( getTextResourceService().getText( ERROR_UNKNOWN ) );
+			LOGGER.logError( e.getMessage() );
+			return false;
+		}
 
 		/*
 		 * // Validation Step F (Zeilen-Validierung) try { if
@@ -568,5 +598,21 @@ public class Controller implements MessageConstants
 			ValidationEcolumnModule validationEcolumnModule )
 	{
 		this.validationEcolumnModule = validationEcolumnModule;
+	}
+
+	/**
+	 * @return the validationFrowModule
+	 */
+	public ValidationFrowModule getValidationFrowModule()
+	{
+		return validationFrowModule;
+	}
+
+	/**
+	 * @param validationFrowModule the validationFrowModule to set
+	 */
+	public void setValidationFrowModule( ValidationFrowModule validationFrowModule )
+	{
+		this.validationFrowModule = validationFrowModule;
 	}
 }

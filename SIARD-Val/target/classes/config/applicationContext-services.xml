@@ -47,10 +47,11 @@
 		<property name="messageService" ref="messageService" />
 		<property name="configurationService" ref="configurationService" />
 	</bean> 
-<!--	<bean id="validationFrowModule" class="ch.kostceco.tools.siardval.validation.module.impl.ValidationFrowModuleImpl">
+	<bean id="validationFrowModule" class="ch.kostceco.tools.siardval.validation.module.impl.ValidationFrowModuleImpl">
 		<property name="textResourceService" ref="textResourceService" />
 		<property name="messageService" ref="messageService" />
-	</bean> -->
+		<property name="configurationService" ref="configurationService" />
+	</bean>
 	<bean id="validationGtableModule" class="ch.kostceco.tools.siardval.validation.module.impl.ValidationGtableModuleImpl">
 		<property name="textResourceService" ref="textResourceService" />
 		<property name="messageService" ref="messageService" />
@@ -96,7 +97,7 @@
 		<property name="validationCheaderModule" ref="validationCheaderModule" /> 
 		<property name="validationDstructureModule" ref="validationDstructureModule" />
 		<property name="validationEcolumnModule" ref="validationEcolumnModule" />
-<!--		<property name="validationFrowModule" ref="validationFrowModule" /> -->
+		<property name="validationFrowModule" ref="validationFrowModule" />
 		<property name="validationGtableModule" ref="validationGtableModule" /> 
 		<property name="validationHcontentModule" ref="validationHcontentModule" />
 		<property name="validationIrecognitionModule" ref="validationIrecognitionModule" />

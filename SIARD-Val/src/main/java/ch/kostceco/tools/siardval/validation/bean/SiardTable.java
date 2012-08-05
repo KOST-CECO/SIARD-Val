@@ -25,6 +25,8 @@ public class SiardTable
 {
 
 	private String			tableName;
+	private Element			tableRootElement;
+	private Element			tableXSDRootElement;
 	private List<Element>	metadataXMLElements;
 	private List<Element>	tableXSDElements;
 	private List<Element>	tableXMLElements;
@@ -67,6 +69,38 @@ public class SiardTable
 	public void setTableXMLElements( List<Element> tableXMLElements )
 	{
 		this.tableXMLElements = tableXMLElements;
+	}
+
+	/**
+	 * @return the tableRootElement
+	 */
+	public Element getTableRootElement()
+	{
+		return tableRootElement;
+	}
+
+	/**
+	 * @param tableRootElement the tableRootElement to set
+	 */
+	public void setTableRootElement( Element tableRootElement )
+	{
+		this.tableRootElement = tableRootElement;
+	}
+
+	/**
+	 * @return the tableXSDRootElement
+	 */
+	public Element getTableXSDRootElement()
+	{
+		return tableXSDRootElement;
+	}
+
+	/**
+	 * @param tableXSDRootElement the tableXSDRootElement to set
+	 */
+	public void setTableXSDRootElement( Element tableXSDRootElement )
+	{
+		this.tableXSDRootElement = tableXSDRootElement;
 	}
 
 }
