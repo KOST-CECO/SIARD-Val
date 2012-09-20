@@ -100,4 +100,35 @@ public class ConfigurationServiceImpl implements ConfigurationService
 		}
 		return null;
 	}
+
+	@Override
+	public int getTableRowsLimit()
+	{
+		/**
+		 * Gibt die maximale Anzahl von Rows zurück. Dieser Wert wird in Modul H verwendet. 
+		 * Module H validiert die table.xml Dateien gegen ihre table.xsd Schemas. Wenn
+		 * ein Schema 
+		 * <xs:element name="row" type="rowType" minOccurs="0" maxOccurs="unbounded"/>
+		 * in minOccurs oder maxOccurs hohe Zahlenwerte enthält, führt die Validierung zu einem
+		 * java.lang.OutOfMemoryError. Da dieser Error nicht aufgefangen werden kann,
+		 * werden vor der Validierung die Rows der Tabelle gezählt. Die ermittelte Zahl
+		 * darf nicht über dem hier zurückgegebenen Wert liegen.
+		 *
+		 * @return Pfad des Arbeitsverzeichnisses
+		 */
+		int value = 17000;
+		Object prop = getConfig().getProperty( "table-rows-limit" );
+		if (prop != null)
+		{
+			try
+			{
+				value = Integer.valueOf( prop.toString() ).intValue();
+			}
+			catch (NumberFormatException e)
+			{
+				//Do nothing
+			}
+		}
+		return value;
+	}
 }

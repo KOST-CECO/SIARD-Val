@@ -1,4 +1,3 @@
-/*== SIARD-Val ==================================================================================
 /*== SIARD-Val ===================================================================================
 The SIARD-Val application is used for validate SIARD-Files. 
 Copyright (C) 2012 Claire Röthlisberger (KOST-CECO), Christian Eugster, Olivier Debenath, 
@@ -35,5 +34,7 @@ public interface ConfigurationService extends Service
 	 * @return Pfad des Arbeitsverzeichnisses
 	 */
 	String getPathToWorkDir();
+
+	int getTableRowsLimit();
 
 }

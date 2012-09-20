@@ -143,6 +143,7 @@ public interface MessageConstants
 	String	MESSAGE_MODULE_H_INVALID_FOLDER					= "message.module.h.invalid.folder";
 	String	MESSAGE_MODULE_H_INVALID_XML					= "message.module.h.invalid.xml";
 	String	MESSAGE_MODULE_H_INVALID_ERROR					= "message.module.h.invalid.error";
+	String  MESSAGE_MODULE_H_TABLE_NOT_VALIDATED			= "message.module.h.table.not.validated";
 
 	// Modul I Meldungen
 	String	MESSAGE_MODULE_I_NOTALLOWEDPUID					= "message.module.i.notallowedpuid";

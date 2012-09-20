@@ -23,6 +23,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -96,13 +97,17 @@ public class ValidationEcolumnModuleImpl extends ValidationModuleImpl implements
 	private StringBuilder			incongruentColumnSequence;
 
 	/**
+	 *
 	 * Start of the column validation. The <code>validate</code> method act as a
 	 * controller. First it initializes the validation by calling the
 	 * <code>validationPrepare()</code> method and subsequently it starts the
 	 * validation process by executing the validation subroutines:
 	 * <code>validateAttributeCount()</code>,
-	 * <code>validateAttributeOccurrence()</code> and finally
-	 * <code>validateAttributeType()</code>.
+	 * <code>validateAttributeOccurrence()</code>,
+	 * <code>validateAttributeType()</code> and finally
+	 * <code>validateAttributeSequence()</code>. If the flag
+	 * <code>verboseMode</code> is set to true the whole validation process log
+	 * is being written back to the main controller.
 	 * 
 	 * @param SIARD
 	 *            archive containing the tables whose columns are to be

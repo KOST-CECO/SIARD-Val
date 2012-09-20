@@ -34,9 +34,14 @@ import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.Namespace;
 import org.jdom2.input.SAXBuilder;
+import org.xml.sax.Attributes;
 import org.xml.sax.ErrorHandler;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
+import org.xml.sax.XMLReader;
+import org.xml.sax.helpers.DefaultHandler;
+import org.xml.sax.helpers.XMLReaderFactory;
 
 import ch.kostceco.tools.siardval.exception.module.ValidationHcontentException;
 import ch.kostceco.tools.siardval.service.ConfigurationService;
@@ -51,178 +56,321 @@ import ch.kostceco.tools.siardval.validation.module.ValidationHcontentModule;
  * @author Ec Christian Eugster
  */
 
-public class ValidationHcontentModuleImpl extends ValidationModuleImpl
-		implements ValidationHcontentModule
-{
+public class ValidationHcontentModuleImpl extends ValidationModuleImpl implements ValidationHcontentModule {
 
-	public ConfigurationService	configurationService;
+    public ConfigurationService configurationService;
+    
+    private XMLReader reader;
+    
+    public ConfigurationService getConfigurationService() {
+        return configurationService;
+    }
 
-	public ConfigurationService getConfigurationService()
-	{
-		return configurationService;
-	}
+    public void setConfigurationService(ConfigurationService configurationService) {
+        this.configurationService = configurationService;
+    }
 
-	public void setConfigurationService(
-			ConfigurationService configurationService )
-	{
-		this.configurationService = configurationService;
-	}
 
-	@Override
-	public boolean validate( File siardDatei )
-			throws ValidationHcontentException
-	{
-		boolean valid = true;
-		try {
-			/*
-			 * Extract the metadata.xml from the temporare work folder and build
-			 * a jdom document
-			 */
-			String pathToWorkDir = getConfigurationService().getPathToWorkDir();
-			File metadataXml = new File( new StringBuilder( pathToWorkDir )
-					.append( File.separator ).append( "header" )
-					.append( File.separator ).append( "metadata.xml" )
-					.toString() );
-			InputStream fin = new FileInputStream( metadataXml );
-			SAXBuilder builder = new SAXBuilder();
-			Document document = builder.build( fin );
-			fin.close();
+    @Override
+    public boolean validate(File siardDatei) throws ValidationHcontentException 
+    {
+    	boolean valid = true;
+        try {
+        	/*
+        	 * Extract the metadata.xml from the temporary work folder and build a jdom document
+        	 */
+            String pathToWorkDir = getConfigurationService().getPathToWorkDir();
+            File metadataXml = new File(new StringBuilder(pathToWorkDir).append(File.separator).append("header").append(File.separator).append("metadata.xml").toString());
+            InputStream fin = new FileInputStream(metadataXml);
+            SAXBuilder builder = new SAXBuilder();
+            Document document = builder.build(fin);
+            fin.close();
 
-			/*
-			 * read the document and for each schema and table entry verify
-			 * existence in temporary extracted structure
-			 */
-			Namespace ns = Namespace
-					.getNamespace( "http://www.bar.admin.ch/xmlns/siard/1.0/metadata.xsd" );
-			// select schema elements and loop
-			List<Element> schemas = document.getRootElement()
-					.getChild( "schemas", ns ).getChildren( "schema", ns );
-			for ( Element schema : schemas ) {
-				Element schemaFolder = schema.getChild( "folder", ns );
-				File schemaPath = new File( new StringBuilder( pathToWorkDir )
-						.append( File.separator ).append( "content" )
-						.append( File.separator )
-						.append( schemaFolder.getText() ).toString() );
-				if ( schemaPath.isDirectory() ) {
-					List<Element> tables = schema.getChild( "tables", ns )
-							.getChildren( "table", ns );
-					for ( Element table : tables ) {
-						Element tableFolder = table.getChild( "folder", ns );
-						File tablePath = new File( new StringBuilder(
-								schemaPath.getAbsolutePath() )
-								.append( File.separator )
-								.append( tableFolder.getText() ).toString() );
-						if ( tablePath.isDirectory() ) {
-							File tableXml = new File( new StringBuilder(
-									tablePath.getAbsolutePath() )
-									.append( File.separator )
-									.append( tableFolder.getText() + ".xml" )
-									.toString() );
-							File tableXsd = new File( new StringBuilder(
-									tablePath.getAbsolutePath() )
-									.append( File.separator )
-									.append( tableFolder.getText() + ".xsd" )
-									.toString() );
-							valid = valid && validate( tableXml, tableXsd );
-						}
-					}
+            /*
+             * read the document and for each schema and table entry verify existence in temporary extracted structure
+             */
+        	Namespace ns = Namespace.getNamespace("http://www.bar.admin.ch/xmlns/siard/1.0/metadata.xsd");
+        	// select schema elements and loop
+        	List<Element> schemas = document.getRootElement().getChild("schemas", ns).getChildren("schema", ns);
+        	for (Element schema : schemas)
+        	{
+        		Element schemaFolder = schema.getChild("folder", ns);
+                File schemaPath = new File(new StringBuilder(pathToWorkDir).append(File.separator).append("content").append(File.separator).append(schemaFolder.getText()).toString());
+        		if (schemaPath.isDirectory())
+        		{
+        			Element[] tables = schema.getChild("tables", ns).getChildren("table", ns).toArray( new Element[0] );
+        			for (Element table : tables)
+        			{
+        				Element tableFolder = table.getChild("folder", ns);
+                		File tablePath = new File(new StringBuilder(schemaPath.getAbsolutePath()).append(File.separator).append(tableFolder.getText()).toString());
+                		if (tablePath.isDirectory())
+                		{
+                			File tableXml = new File(new StringBuilder(tablePath.getAbsolutePath()).append(File.separator).append(tableFolder.getText() +".xml").toString());
+                			File tableXsd = new File(new StringBuilder(tablePath.getAbsolutePath()).append(File.separator).append(tableFolder.getText() +".xsd").toString());
+                			if (verifyRowCount(tableXml, tableXsd))
+                			{
+                				
+                    			valid = validate(tableXml, tableXsd) && valid;
+                			}
+                		}
+        			}
+        		}
+        	}
+        } 
+        catch (java.io.IOException ioe) 
+        {
+        	valid = false;
+    		getMessageService().logError(
+                    getTextResourceService().getText(MESSAGE_MODULE_H) + 
+                    getTextResourceService().getText(MESSAGE_DASHES) + 
+                    "IOException " + 
+                    ioe.getMessage());                
+        } 
+        catch (JDOMException e) 
+        {
+        	valid = false;
+           getMessageService().logError(
+                    getTextResourceService().getText(MESSAGE_MODULE_H) + 
+                    getTextResourceService().getText(MESSAGE_DASHES) + 
+                    "JDOMException " + 
+                    e.getMessage());                
+        }
+        catch (SAXException e) 
+        {
+        	valid = false;
+        	getMessageService().logError(
+                    getTextResourceService().getText(MESSAGE_MODULE_H) + 
+                    getTextResourceService().getText(MESSAGE_DASHES) + 
+                    "SAXException " + 
+                    e.getMessage());                
+        }
+        
+        return valid;
+    }
+
+    private boolean validate(File xmlFile, File schemaLocation) throws SAXException, IOException
+    {
+		SchemaFactory factory = SchemaFactory.newInstance("http://www.w3.org/2001/XMLSchema");
+		ValidationErrorHandler errorHandler = new ValidationErrorHandler(xmlFile, schemaLocation);
+		Schema schema = factory.newSchema(schemaLocation);
+		Validator validator = schema.newValidator();
+		validator.setErrorHandler(errorHandler);
+		Source source = new StreamSource(xmlFile);
+		validator.validate(source);
+		return errorHandler.isValid();
+    }
+
+    /**
+     * Verify the number of rows in the table. If table count >= SIARDVal.conf.xml.table-rows-limit,
+     * the xsd minOccurs and maxOccurs values are extracted. If those values are numbers, then 
+     * the validation is not executed, because the risk of an OutOfMemoryError is given. 
+     * 
+     * @param xmlFile
+     * @param schemaLocation
+     * @return <code>true</code> if validation should be excecuted, else <code>false</code>
+     * @throws SAXException
+     * @throws IOException
+     */
+    private boolean verifyRowCount(File xmlFile, File schemaLocation) throws SAXException, IOException
+    {
+    	int rows = getRowCount(xmlFile);
+		if (configurationService.getTableRowsLimit() < rows)
+		{
+	       	int[] occurs = getOccurs(schemaLocation);
+	       	if (occurs[0] == rows && occurs[1] == rows)
+	       	{
+	            getMessageService().logWarning(
+	                    getTextResourceService().getText(MESSAGE_MODULE_H) + 
+	                    getTextResourceService().getText(MESSAGE_DASHES) + 
+	                    getTextResourceService().getText(MESSAGE_MODULE_H_TABLE_NOT_VALIDATED, 
+	                    		xmlFile.getName(), rows, configurationService.getTableRowsLimit(), schemaLocation.getName(), occurs[0], occurs[1]));
+	       		return false;
+	       	}
+	       	else if (occurs[0] == 0 && occurs[1] == Integer.MAX_VALUE)
+	       	{
+	            return true;
+	       	}
+	       	else
+	       	{
+	            getMessageService().logWarning(
+	                    getTextResourceService().getText(MESSAGE_MODULE_H) + 
+	                    getTextResourceService().getText(MESSAGE_DASHES) + 
+	                    getTextResourceService().getText(MESSAGE_MODULE_H_TABLE_NOT_VALIDATED, 
+	                    		xmlFile.getName(), rows, configurationService.getTableRowsLimit(), schemaLocation.getName(), occurs[0], occurs[1]));
+	            return false;
+	       	}
+		}
+		else
+		{
+			return true;
+		}
+    }
+    
+    private int getRowCount(File xmlFile) throws SAXException, IOException
+    {
+    	reader = XMLReaderFactory.createXMLReader();
+    	reader.setFeature( "http://xml.org/sax/features/validation", false );
+    	reader.setFeature( "http://apache.org/xml/features/validation/schema", false );
+    	CountRowsHandler countRowsHandler = new CountRowsHandler();
+    	reader.setContentHandler( countRowsHandler );
+    	reader.parse( new InputSource(new FileInputStream(xmlFile)) );
+    	return countRowsHandler.getRows();
+    }
+    
+    private int[] getOccurs(File xsdFile)  throws SAXException, IOException 
+    {
+    	int[] occurs = new int[] { 1, 1};
+    	OccursHandler occursHandler = new OccursHandler();
+    	try
+    	{
+        	reader = XMLReaderFactory.createXMLReader();
+        	reader.setFeature( "http://xml.org/sax/features/validation", false );
+        	reader.setFeature( "http://apache.org/xml/features/validation/schema", false );
+        	reader.setContentHandler( occursHandler );
+        	reader.parse( new InputSource(new FileInputStream(xsdFile)) );
+    	}
+    	catch (BreakException e)
+    	{
+        	occurs = occursHandler.getOccurs();
+    	}
+    	return occurs;
+    }
+
+    private class ValidationErrorHandler implements ErrorHandler 
+    {
+    	private boolean valid = true;
+    	
+    	private File xmlFile;
+    	
+    	private File schemaLocation;
+    	
+    	public ValidationErrorHandler(File xmlFile, File schemaLocation)
+    	{
+    		this.xmlFile = xmlFile;
+    		this.schemaLocation = schemaLocation;
+    	}
+    	
+    	@Override
+    	public void error(SAXParseException e) throws SAXException 
+    	{
+    		if (valid)
+    		{
+            	valid = false;
+    		}
+    		logError(e);
+    	}
+
+    	@Override
+    	public void fatalError(SAXParseException e) throws SAXException 
+    	{
+    		if (valid)
+    		{
+            	valid = false;
+    		}
+    		logError(e);
+    	}
+
+    	@Override
+    	public void warning(SAXParseException e) throws SAXException 
+    	{
+    		if (valid)
+    		{
+            	valid = false;
+    		}
+    		logError(e);
+    	}
+    	
+    	private void logError(SAXParseException e)
+    	{
+            getMessageService().logError(
+                    getTextResourceService().getText(MESSAGE_MODULE_H) + 
+                    getTextResourceService().getText(MESSAGE_DASHES) + 
+                    getTextResourceService().getText(MESSAGE_MODULE_H_INVALID_ERROR, xmlFile.getName(), schemaLocation.getName(), e.getLineNumber(), e.getColumnNumber(), e.getLocalizedMessage()));
+        }
+    	
+    	public boolean isValid()
+    	{
+    		return valid;
+    	}
+    }
+
+    private class CountRowsHandler extends DefaultHandler 
+    {
+    	private int rows = 0;
+    	
+		@Override
+		public void startElement( String uri, String localName, String qName,
+				Attributes attributes ) throws SAXException
+		{
+			if (localName.equals( "row" ))
+			{
+				rows++;
+			}
+		}
+
+		public int getRows()
+		{
+			return rows;
+		}
+    }
+
+    private class OccursHandler extends DefaultHandler
+    {
+    	private int minOccurs = 0;
+    	
+    	private int maxOccurs = 0;
+    	
+		@Override
+		public void startElement( String uri, String localName, String qName,
+				Attributes attributes ) throws SAXException
+		{
+			if ("row".equals( attributes.getValue( "name" )))
+			{
+				if ("rowType".equals( attributes.getValue( "type" ) ))
+				{
+					String minOccurs = attributes.getValue( "minOccurs" );
+					this.minOccurs = getOccurs(minOccurs);
+					this.maxOccurs = getOccurs(minOccurs);
+					throw new BreakException();
 				}
 			}
-		} catch ( java.io.IOException ioe ) {
-			valid = false;
-			getMessageService().logError(
-					getTextResourceService().getText( MESSAGE_MODULE_H )
-							+ getTextResourceService().getText( MESSAGE_DASHES )
-							+ "IOException " + ioe.getMessage() );
-		} catch ( JDOMException e ) {
-			valid = false;
-			getMessageService().logError(
-					getTextResourceService().getText( MESSAGE_MODULE_H )
-							+ getTextResourceService().getText( MESSAGE_DASHES )
-							+ "JDOMException " + e.getMessage() );
-		} catch ( SAXException e ) {
-			valid = false;
-			getMessageService().logError(
-					getTextResourceService().getText( MESSAGE_MODULE_H )
-							+ getTextResourceService().getText( MESSAGE_DASHES )
-							+ "SAXException " + e.getMessage() );
 		}
-
-		return valid;
-	}
-
-	private boolean validate( File xmlFile, File schemaLocation )
-			throws SAXException, IOException
-	{
-		SchemaFactory factory = SchemaFactory
-				.newInstance( "http://www.w3.org/2001/XMLSchema" );
-		Schema schema = factory.newSchema( schemaLocation );
-		Validator validator = schema.newValidator();
-		ValidationErrorHandler errorHandler = new ValidationErrorHandler(
-				xmlFile, schemaLocation );
-		validator.setErrorHandler( errorHandler );
-		Source source = new StreamSource( xmlFile );
-		validator.validate( source );
-		return errorHandler.isValid();
-	}
-
-	private class ValidationErrorHandler implements ErrorHandler
-	{
-		private boolean	valid	= true;
-
-		private File	xmlFile;
-
-		private File	schemaLocation;
-
-		public ValidationErrorHandler( File xmlFile, File schemaLocation )
+		
+		private int getOccurs(String attributeValue)
 		{
-			this.xmlFile = xmlFile;
-			this.schemaLocation = schemaLocation;
-		}
-
-		@Override
-		public void error( SAXParseException e ) throws SAXException
-		{
-			if ( valid ) {
-				valid = false;
+			int value = 1;
+			if (attributeValue == null)
+			{
+				return value;
 			}
-			logError( e );
-		}
-
-		@Override
-		public void fatalError( SAXParseException e ) throws SAXException
-		{
-			if ( valid ) {
-				valid = false;
+			if (attributeValue.equals( "unbounded" ))
+			{
+				return Integer.MAX_VALUE;
 			}
-			logError( e );
-		}
-
-		@Override
-		public void warning( SAXParseException e ) throws SAXException
-		{
-			if ( valid ) {
-				valid = false;
+			try
+			{
+				value = Integer.valueOf( attributeValue ).intValue();
 			}
-			logError( e );
+			catch (NumberFormatException e)
+			{
+			}
+			return value;
 		}
-
-		private void logError( SAXParseException e )
+		
+		public int[] getOccurs()
 		{
-			getMessageService().logError(
-					getTextResourceService().getText( MESSAGE_MODULE_H )
-							+ getTextResourceService().getText( MESSAGE_DASHES )
-							+ getTextResourceService().getText(
-									MESSAGE_MODULE_H_INVALID_ERROR,
-									xmlFile.getName(),
-									schemaLocation.getName(),
-									e.getLineNumber(), e.getColumnNumber(),
-									e.getLocalizedMessage() ) );
+			return new int[] { minOccurs, maxOccurs };
+			
 		}
+    }
+    
+    private class BreakException extends SAXException
+    {
 
-		public boolean isValid()
-		{
-			return valid;
-		}
-	}
+		/**
+		 * 
+		 */
+		private static final long	serialVersionUID	= 1L;
+    	
+    }
 }
