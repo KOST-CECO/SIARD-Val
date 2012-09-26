@@ -1,4 +1,5 @@
 <?xml version="1.0"?>
 <configuration>
 	<pathtoworkdir>C:\TEMP\SIARDwork</pathtoworkdir>
+	<table-rows-limit>17000</table-rows-limit>
 </configuration>

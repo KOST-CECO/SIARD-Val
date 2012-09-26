@@ -35,5 +35,7 @@ public interface ConfigurationService extends Service
 	 * @return Pfad des Arbeitsverzeichnisses
 	 */
 	String getPathToWorkDir();
+	int getTableRowsLimit();
+
 
 }

@@ -120,7 +120,7 @@ public interface MessageConstants
 	String	MESSAGE_MODULE_E_INVALID_ATTRIBUTE_SEQUENCE		= "message.module.e.attribute.sequence.validation.failed";
 	String	MESSAGE_MODULE_E_INVALID_ATTRIBUTE_TYPE			= "message.module.e.attribute.type.validation.failed";
 	String	MESSAGE_MODULE_E_VALIDATION_SKIPPED				= "message.module.e.validation.skipped";
-	
+
 	// Modul F Meldungen
 	String	MESSAGE_MODULE_F_INVALID_VALIDATION_CONTEXT		= "message.module.f.missing.properties";
 	String	MESSAGE_MODULE_F_PROPERTIES_ERROR				= "message.module.f.properties.error";
@@ -130,10 +130,9 @@ public interface MessageConstants
 	String	MESSAGE_MODULE_F_XML_ACCESS_ERROR				= "message.module.f.xml.access.error";
 	String	MESSAGE_MODULE_F_PREVALIDATION_ERROR			= "message.module.f.prevalidation.error";
 	String	MESSAGE_MODULE_F_MISSING_SIARD_TABLES			= "message.module.f.missing.siard.tables";
-	String  MESSAGE_MODULE_F_INVALID_TABLE_XML_FILES		= "message.module.f.invalid.table.xml.files";
-	String  MESSAGE_MODULE_F_INVALID_TABLE_XSD_FILES		= "message.module.f.invalid.table.xsd.files";
-	
-	
+	String	MESSAGE_MODULE_F_INVALID_TABLE_XML_FILES		= "message.module.f.invalid.table.xml.files";
+	String	MESSAGE_MODULE_F_INVALID_TABLE_XSD_FILES		= "message.module.f.invalid.table.xsd.files";
+
 	// Modul G Meldungen
 	String	MESSAGE_MODULE_G_DUPLICATE_SCHEMA				= "message.module.g.duplicate.schema";
 	String	MESSAGE_MODULE_G_DUPLICATE_TABLE				= "message.module.g.duplicate.table";
@@ -143,6 +142,7 @@ public interface MessageConstants
 	String	MESSAGE_MODULE_H_INVALID_FOLDER					= "message.module.h.invalid.folder";
 	String	MESSAGE_MODULE_H_INVALID_XML					= "message.module.h.invalid.xml";
 	String	MESSAGE_MODULE_H_INVALID_ERROR					= "message.module.h.invalid.error";
+	String	MESSAGE_MODULE_H_TABLE_NOT_VALIDATED			= "message.module.h.table.not.validated";
 
 	// Modul I Meldungen
 	String	MESSAGE_MODULE_I_NOTALLOWEDPUID					= "message.module.i.notallowedpuid";
