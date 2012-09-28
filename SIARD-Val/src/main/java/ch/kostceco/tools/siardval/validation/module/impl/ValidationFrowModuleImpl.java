@@ -63,7 +63,7 @@ import ch.kostceco.tools.siardval.validation.module.ValidationFrowModule;
  * 
  * <pre>
  *  <code>&lt;table&gt</code>
-* 	<code>&lt;name&gtTABLE_NAME&lt;/name&gt</code>
+ * 	<code>&lt;name&gtTABLE_NAME&lt;/name&gt</code>
  * 	<code>&lt;folder&gtFOLDER_NAME&lt;/folder&gt</code>
  * 	<code>&lt;description&gtDESCRIPTION&lt;/description&gt</code>
  * 	<code>&lt;columns&gt</code>
@@ -93,7 +93,7 @@ public class ValidationFrowModuleImpl extends ValidationModuleImpl implements
 	/* Validation error related properties */
 	private StringBuilder			incongruentTableXMLFiles;
 	private StringBuilder			incongruentTableXSDFiles;
-	
+
 	/**
 	 * Start of the column validation. The <code>validate</code> method act as a
 	 * controller. First it initializes the validation by calling the
@@ -110,8 +110,7 @@ public class ValidationFrowModuleImpl extends ValidationModuleImpl implements
 	 *                if the representation of the columns is invalid
 	 */
 	@Override
-	public boolean validate( File siardDatei )
-			throws ValidationFrowException
+	public boolean validate( File siardDatei ) throws ValidationFrowException
 	{
 		// All over validation flag
 		boolean valid = true;
@@ -127,7 +126,8 @@ public class ValidationFrowModuleImpl extends ValidationModuleImpl implements
 			// Get the prepared SIARD tables from the validation context
 			valid = (this.getValidationContext().getSiardTables() == null ? false
 					: true);
-			// Compares row information in metadata.xml and according table.xml files
+			// Compares row information in metadata.xml and according table.xml
+			// files
 			if ( validateTableXMLFiles( this.getValidationContext() ) == false ) {
 				valid = false;
 				getMessageService()
@@ -140,8 +140,9 @@ public class ValidationFrowModuleImpl extends ValidationModuleImpl implements
 												.getText(
 														MESSAGE_MODULE_F_INVALID_TABLE_XML_FILES,
 														this.getIncongruentTableXMLFiles() ) );
-			} 
-			// Compares row information in metadata.xml and according table.xsd files 
+			}
+			// Compares row information in metadata.xml and according table.xsd
+			// files
 			if ( validateTableXSDFiles( this.getValidationContext() ) == false ) {
 				valid = false;
 				getMessageService()
@@ -220,7 +221,7 @@ public class ValidationFrowModuleImpl extends ValidationModuleImpl implements
 									MESSAGE_MODULE_E_METADATA_ACCESS_ERROR ) );
 		}
 		// Prepare the XML configuration and store it to the validation context
-		
+
 		boolean xmlAccessPrepared = prepareXMLAccess( validationContext );
 		if ( xmlAccessPrepared == false ) {
 			prepared = false;
@@ -255,36 +256,39 @@ public class ValidationFrowModuleImpl extends ValidationModuleImpl implements
 		StringBuilder namesOfInvalidTables = new StringBuilder();
 		Properties properties = validationContext.getValidationProperties();
 		List<SiardTable> siardTables = validationContext.getSiardTables();
-		
+
 		for ( SiardTable siardTable : siardTables ) {
 			Element tableRootElement = siardTable.getTableRootElement();
-			Element tableRowsElement = tableRootElement.getChild( 
-					properties
-						.getProperty( "module.f.siard.table.xml.rows.element.name" ), 
+			Element tableRowsElement = tableRootElement
+					.getChild(
+							properties
+									.getProperty( "module.f.siard.table.xml.rows.element.name" ),
 							validationContext.getXmlNamespace() );
-			Integer rowNumber = new Integer(tableRowsElement.getValue());
+			Integer rowNumber = new Integer( tableRowsElement.getValue() );
 			List<Element> xmlRowElements = siardTable.getTableXMLElements();
-			Integer rows = new Integer(xmlRowElements.size());
-			if (rowNumber > rows) {
+			Integer rows = new Integer( xmlRowElements.size() );
+			if ( rowNumber > rows ) {
 				validTableXMLFiles = false;
 				namesOfInvalidTables
-				.append( (namesOfInvalidTables.length() > 0) ? ", "
-						: "" );
-				namesOfInvalidTables.append( siardTable.getTableName() 
-						+ properties
-							.getProperty( "module.f.siard.table.xml.file.extension" )
-							+ "("+ (rows - rowNumber) + ")");
+						.append( (namesOfInvalidTables.length() > 0) ? ", "
+								: "" );
+				namesOfInvalidTables
+						.append( siardTable.getTableName()
+								+ properties
+										.getProperty( "module.f.siard.table.xml.file.extension" )
+								+ "(" + (rows - rowNumber) + ")" );
 			}
-			
-			if (rowNumber < rows) {
+
+			if ( rowNumber < rows ) {
 				validTableXMLFiles = false;
 				namesOfInvalidTables
-				.append( (namesOfInvalidTables.length() > 0) ? ", "
-						: "" );
-				namesOfInvalidTables.append( siardTable.getTableName()
-						+ properties
-							.getProperty( "module.f.siard.table.xml.file.extension" )
-							+ "(+"+ (rows - rowNumber) + ")");
+						.append( (namesOfInvalidTables.length() > 0) ? ", "
+								: "" );
+				namesOfInvalidTables
+						.append( siardTable.getTableName()
+								+ properties
+										.getProperty( "module.f.siard.table.xml.file.extension" )
+								+ "(+" + (rows - rowNumber) + ")" );
 			}
 		}
 		// Writing back error log
@@ -297,102 +301,108 @@ public class ValidationFrowModuleImpl extends ValidationModuleImpl implements
 	 * [E.2]Compares the <nullable> Element of the metadata.xml to the minOccurs
 	 * attributesin the according XML schemata
 	 */
-	private boolean validateTableXSDFiles(
-			ValidationContext validationContext ) throws Exception
+	private boolean validateTableXSDFiles( ValidationContext validationContext )
+			throws Exception
 	{
 		boolean validTableXSDFiles = true;
 		StringBuilder namesOfInvalidTables = new StringBuilder();
 		Properties properties = validationContext.getValidationProperties();
 		List<SiardTable> siardTables = validationContext.getSiardTables();
-		
+
 		for ( SiardTable siardTable : siardTables ) {
-			
+
 			Element tableRootElement = siardTable.getTableRootElement();
-			Element tableRowsElement = tableRootElement.getChild( 
-					properties
-						.getProperty( "module.f.siard.table.xml.rows.element.name" ), 
+			Element tableRowsElement = tableRootElement
+					.getChild(
+							properties
+									.getProperty( "module.f.siard.table.xml.rows.element.name" ),
 							validationContext.getXmlNamespace() );
-			Integer rowNumber = new Integer(tableRowsElement.getValue());
+			Integer rowNumber = new Integer( tableRowsElement.getValue() );
 			Long extendedRowNumber = rowNumber.longValue();
-		
+
 			Element tableXSDRootElement = siardTable.getTableXSDRootElement();
-			Element tableElement = tableXSDRootElement.getChild( 
-					properties
-						.getProperty( "module.f.siard.table.xsd.element" ) ,
-						tableXSDRootElement.getNamespace() );
-		
-			Element tableComplexType = tableElement.getChild( 
-					properties
-						.getProperty( "module.f.siard.table.xsd.complexType" ),
-						tableXSDRootElement.getNamespace() );
-			
-			
-			Element tableSequence = tableComplexType.getChild(
-					properties
-						.getProperty( "module.f.siard.table.xsd.sequence" ), 
-						tableXSDRootElement.getNamespace() );
-			
-			String maxOccurs = tableSequence.getChild( 
-					properties
-						.getProperty( "module.f.siard.table.xsd.element" ), 
-						tableXSDRootElement.getNamespace() )
-								.getAttributeValue( 
-										properties
-											.getProperty( "module.f.siard.table.xsd.attribute.maxOccurs.name" ) );
-			String minOccurs = tableSequence.getChild( 
-					properties
-					.getProperty( "module.f.siard.table.xsd.element" ), 
-					tableXSDRootElement.getNamespace() )
-							.getAttributeValue( 
-									properties
-										.getProperty( "module.f.siard.table.xsd.attribute.minOccurs.name" ) );
-			
-			//Implicite max. bound: the maximal value of Long is used
-			if (maxOccurs.equalsIgnoreCase( 
-					properties
-						.getProperty( "module.f.siard.table.xsd.attribute.unbounded" ))) {
-				if (extendedRowNumber >= 0 && extendedRowNumber <= Long.MAX_VALUE) {}
-				else {
+			Element tableElement = tableXSDRootElement
+					.getChild( properties
+							.getProperty( "module.f.siard.table.xsd.element" ),
+							tableXSDRootElement.getNamespace() );
+
+			Element tableComplexType = tableElement.getChild( properties
+					.getProperty( "module.f.siard.table.xsd.complexType" ),
+					tableXSDRootElement.getNamespace() );
+
+			Element tableSequence = tableComplexType.getChild( properties
+					.getProperty( "module.f.siard.table.xsd.sequence" ),
+					tableXSDRootElement.getNamespace() );
+
+			String maxOccurs = tableSequence
+					.getChild(
+							properties
+									.getProperty( "module.f.siard.table.xsd.element" ),
+							tableXSDRootElement.getNamespace() )
+					.getAttributeValue(
+							properties
+									.getProperty( "module.f.siard.table.xsd.attribute.maxOccurs.name" ) );
+			String minOccurs = tableSequence
+					.getChild(
+							properties
+									.getProperty( "module.f.siard.table.xsd.element" ),
+							tableXSDRootElement.getNamespace() )
+					.getAttributeValue(
+							properties
+									.getProperty( "module.f.siard.table.xsd.attribute.minOccurs.name" ) );
+
+			// Implicite max. bound: the maximal value of Long is used
+			if ( maxOccurs
+					.equalsIgnoreCase( properties
+							.getProperty( "module.f.siard.table.xsd.attribute.unbounded" ) ) ) {
+				if ( extendedRowNumber >= 0
+						&& extendedRowNumber <= Long.MAX_VALUE ) {
+				} else {
 					validTableXSDFiles = false;
-					namesOfInvalidTables.append( (namesOfInvalidTables.length() > 0) ? ", "
-							: "" );
-					namesOfInvalidTables.append( siardTable.getTableName() + properties
-							.getProperty( "module.f.siard.table.xsd.file.extension" ));
+					namesOfInvalidTables
+							.append( (namesOfInvalidTables.length() > 0) ? ", "
+									: "" );
+					namesOfInvalidTables
+							.append( siardTable.getTableName()
+									+ properties
+											.getProperty( "module.f.siard.table.xsd.file.extension" ) );
 				}
 			}
-			
-			//Explicite max. bound is used
-			if (isLong(maxOccurs) && isLong(minOccurs)) {
-				if (new Long(minOccurs) == extendedRowNumber && new Long(maxOccurs) == extendedRowNumber) {}
-				else {
+
+			// Explicite max. bound is used
+			if ( isLong( maxOccurs ) && isLong( minOccurs ) ) {
+				if ( new Long( minOccurs ) == extendedRowNumber
+						&& new Long( maxOccurs ) == extendedRowNumber ) {
+				} else {
 					validTableXSDFiles = false;
-					namesOfInvalidTables.append( (namesOfInvalidTables.length() > 0) ? ", "
-							: "" );
-					namesOfInvalidTables.append( siardTable.getTableName()
-							+ properties
-								.getProperty( "module.f.siard.table.xsd.file.extension" )
-							+ "("+ (new Long(maxOccurs) - extendedRowNumber) + ")");
+					namesOfInvalidTables
+							.append( (namesOfInvalidTables.length() > 0) ? ", "
+									: "" );
+					namesOfInvalidTables
+							.append( siardTable.getTableName()
+									+ properties
+											.getProperty( "module.f.siard.table.xsd.file.extension" )
+									+ "("
+									+ (new Long( maxOccurs ) - extendedRowNumber)
+									+ ")" );
 				}
 			}
 		}
-		
+
 		this.setIncongruentTableXSDFiles( namesOfInvalidTables );
 		return validTableXSDFiles;
 	}
-	
-    private boolean isLong( String input )  
-    {  
-       try  
-       {  
-          Long.valueOf( input );  
-          return true;  
-       }  
-       catch( Exception e )  
-       {  
-          return false;  
-       }  
-    }  
-	
+
+	private boolean isLong( String input )
+	{
+		try {
+			Long.valueOf( input );
+			return true;
+		} catch ( Exception e ) {
+			return false;
+		}
+	}
+
 	/* Internal helper methods */
 	/*
 	 * [E.0.1]Load the validation properties
@@ -442,7 +452,7 @@ public class ValidationFrowModuleImpl extends ValidationModuleImpl implements
 		contentPath
 				.append( properties.getProperty( "module.f.content.suffix" ) );
 		// Writing back the directory structure to the validation context
-		
+
 		validationContext.setHeaderPath( headerPath.toString() );
 		validationContext.setContentPath( contentPath.toString() );
 		if ( validationContext.getHeaderPath() != null
@@ -570,7 +580,7 @@ public class ValidationFrowModuleImpl extends ValidationModuleImpl implements
 			throws Exception
 	{
 		boolean successfullyCommitted = false;
-		
+
 		Properties properties = validationContext.getValidationProperties();
 		StringBuilder pathToMetadataXML = new StringBuilder();
 		pathToMetadataXML.append( validationContext.getConfigurationService()
@@ -591,13 +601,13 @@ public class ValidationFrowModuleImpl extends ValidationModuleImpl implements
 			this.setValidationContext( validationContext );
 			successfullyCommitted = true;
 		} else {
-			
+
 			this.setValidationContext( null );
-			
+
 			successfullyCommitted = false;
 			throw new Exception();
 		}
-		
+
 		return successfullyCommitted;
 	}
 
@@ -664,7 +674,7 @@ public class ValidationFrowModuleImpl extends ValidationModuleImpl implements
 									validationContext.getXmlNamespace() )
 							.getValue();
 					SiardTable siardTable = new SiardTable();
-					//Add Table Root Element
+					// Add Table Root Element
 					siardTable.setTableRootElement( siardTableElement );
 					siardTable.setMetadataXMLElements( siardColumnElements );
 					siardTable.setTableName( tableName );
@@ -695,16 +705,16 @@ public class ValidationFrowModuleImpl extends ValidationModuleImpl implements
 					// Retrieve the according XML schema
 					File tableSchema = validationContext.getSiardFiles().get(
 							pathToTableSchema.toString() );
-					
-					//--> Hier
+
+					// --> Hier
 					StringBuilder pathToTableXML = new StringBuilder();
 					pathToTableXML.append( workingDirectory );
 					pathToTableXML.append( File.separator );
 					pathToTableXML.append( properties
 							.getProperty( "module.f.siard.path.to.content" ) );
 					pathToTableXML.append( File.separator );
-					pathToTableXML.append( schemaFolderName.replaceAll( " ",
-							"" ) );
+					pathToTableXML.append( schemaFolderName
+							.replaceAll( " ", "" ) );
 					pathToTableXML.append( File.separator );
 					pathToTableXML.append( siardTableFolderName.replaceAll(
 							" ", "" ) );
@@ -716,29 +726,28 @@ public class ValidationFrowModuleImpl extends ValidationModuleImpl implements
 									.getProperty( "module.f.siard.table.xml.file.extension" ) );
 					File tableXML = validationContext.getSiardFiles().get(
 							pathToTableXML.toString() );
-					
+
 					SAXBuilder schemaBuilder = new SAXBuilder();
-					Document tableSchemaDocument = schemaBuilder.build( tableSchema );
+					Document tableSchemaDocument = schemaBuilder
+							.build( tableSchema );
 					Element tableSchemaRootElement = tableSchemaDocument
 							.getRootElement();
-					
+
 					// Getting the tags from XML schema to be validated
-					
-					siardTable
-							.setTableXSDRootElement( tableSchemaRootElement );
-					
+
+					siardTable.setTableXSDRootElement( tableSchemaRootElement );
+
 					SAXBuilder xmlBuilder = new SAXBuilder();
 					Document tableXMLDocument = xmlBuilder.build( tableXML );
 					Element tableXMLRootElement = tableXMLDocument
 							.getRootElement();
 					Namespace xMLNamespace = tableXMLRootElement.getNamespace();
 					List<Element> tableXMLElements = tableXMLRootElement
-							.getChildren( 
+							.getChildren(
 									properties
-										.getProperty( "module.f.siard.table.xml.row.element.name" ), 
-										xMLNamespace );
-					siardTable
-						.setTableXMLElements( tableXMLElements );
+											.getProperty( "module.f.siard.table.xml.row.element.name" ),
+									xMLNamespace );
+					siardTable.setTableXMLElements( tableXMLElements );
 					siardTables.add( siardTable );
 					// Writing back the List off all SIARD tables to the
 					// validation context
@@ -802,9 +811,11 @@ public class ValidationFrowModuleImpl extends ValidationModuleImpl implements
 	}
 
 	/**
-	 * @param incongruentTableXMLFiles the incongruentTableXMLFiles to set
+	 * @param incongruentTableXMLFiles
+	 *            the incongruentTableXMLFiles to set
 	 */
-	public void setIncongruentTableXMLFiles( StringBuilder incongruentTableXMLFiles )
+	public void setIncongruentTableXMLFiles(
+			StringBuilder incongruentTableXMLFiles )
 	{
 		this.incongruentTableXMLFiles = incongruentTableXMLFiles;
 	}
@@ -818,13 +829,13 @@ public class ValidationFrowModuleImpl extends ValidationModuleImpl implements
 	}
 
 	/**
-	 * @param incongruentTableXSDFiles the incongruentTableXSDFiles to set
+	 * @param incongruentTableXSDFiles
+	 *            the incongruentTableXSDFiles to set
 	 */
-	public void setIncongruentTableXSDFiles( StringBuilder incongruentTableXSDFiles )
+	public void setIncongruentTableXSDFiles(
+			StringBuilder incongruentTableXSDFiles )
 	{
 		this.incongruentTableXSDFiles = incongruentTableXSDFiles;
 	}
 
-	
-	
 }
