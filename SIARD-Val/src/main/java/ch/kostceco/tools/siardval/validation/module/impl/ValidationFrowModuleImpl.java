@@ -131,7 +131,7 @@ public class ValidationFrowModuleImpl extends ValidationModuleImpl implements
 			if ( validateTableXMLFiles( this.getValidationContext() ) == false ) {
 				valid = false;
 				getMessageService()
-						.logInfo(
+						.logError(
 								getTextResourceService().getText(
 										MESSAGE_MODULE_F )
 										+ getTextResourceService().getText(
@@ -146,7 +146,7 @@ public class ValidationFrowModuleImpl extends ValidationModuleImpl implements
 			if ( validateTableXSDFiles( this.getValidationContext() ) == false ) {
 				valid = false;
 				getMessageService()
-						.logInfo(
+						.logError(
 								getTextResourceService().getText(
 										MESSAGE_MODULE_F )
 										+ getTextResourceService().getText(
@@ -276,7 +276,7 @@ public class ValidationFrowModuleImpl extends ValidationModuleImpl implements
 						.append( siardTable.getTableName()
 								+ properties
 										.getProperty( "module.f.siard.table.xml.file.extension" )
-								+ "(" + (rows - rowNumber) + ")" );
+								+ " (" + (rows - rowNumber) + ") " );
 			}
 
 			if ( rowNumber < rows ) {
@@ -288,7 +288,7 @@ public class ValidationFrowModuleImpl extends ValidationModuleImpl implements
 						.append( siardTable.getTableName()
 								+ properties
 										.getProperty( "module.f.siard.table.xml.file.extension" )
-								+ "(+" + (rows - rowNumber) + ")" );
+								+ " (+" + (rows - rowNumber) + ") " );
 			}
 		}
 		// Writing back error log
@@ -374,17 +374,34 @@ public class ValidationFrowModuleImpl extends ValidationModuleImpl implements
 				if ( new Long( minOccurs ) == extendedRowNumber
 						&& new Long( maxOccurs ) == extendedRowNumber ) {
 				} else {
-					validTableXSDFiles = false;
-					namesOfInvalidTables
-							.append( (namesOfInvalidTables.length() > 0) ? ", "
-									: "" );
-					namesOfInvalidTables
-							.append( siardTable.getTableName()
-									+ properties
-											.getProperty( "module.f.siard.table.xsd.file.extension" )
-									+ "("
-									+ (new Long( maxOccurs ) - extendedRowNumber)
-									+ ")" );
+					if ( new Long( minOccurs ) - extendedRowNumber == 0
+							&& new Long( maxOccurs ) - extendedRowNumber == 0 ) {
+					} else {
+						if ( new Long( maxOccurs ) > extendedRowNumber ) {
+							validTableXSDFiles = false;
+							namesOfInvalidTables.append( (namesOfInvalidTables
+									.length() > 0) ? ", " : "" );
+							namesOfInvalidTables
+									.append( siardTable.getTableName()
+											+ properties
+													.getProperty( "module.f.siard.table.xsd.file.extension" )
+											+ " (+"
+											+ (new Long( maxOccurs ) - extendedRowNumber)
+											+ ") " );
+
+						} else {
+							validTableXSDFiles = false;
+							namesOfInvalidTables.append( (namesOfInvalidTables
+									.length() > 0) ? ", " : "" );
+							namesOfInvalidTables
+									.append( siardTable.getTableName()
+											+ properties
+													.getProperty( "module.f.siard.table.xsd.file.extension" )
+											+ " ("
+											+ (new Long( maxOccurs ) - extendedRowNumber)
+											+ ") " );
+						}
+					}
 				}
 			}
 		}
