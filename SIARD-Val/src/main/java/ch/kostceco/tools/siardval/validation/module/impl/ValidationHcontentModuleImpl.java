@@ -60,6 +60,8 @@ public class ValidationHcontentModuleImpl extends ValidationModuleImpl
 		implements ValidationHcontentModule
 {
 
+	private static final int	UNBOUNDED	= -1;
+
 	public ConfigurationService	configurationService;
 
 	private XMLReader			reader;
@@ -193,73 +195,42 @@ public class ValidationHcontentModuleImpl extends ValidationModuleImpl
 	private boolean verifyRowCount( File xmlFile, File schemaLocation )
 			throws SAXException, IOException
 	{
-		int rows = getRowCount( xmlFile );
-		if ( configurationService.getTableRowsLimit() < rows ) {
-			int[] occurs = getOccurs( schemaLocation );
-			if ( occurs[0] == rows && occurs[1] == rows ) {
-				getMessageService().logError(
-						getTextResourceService().getText( MESSAGE_MODULE_H )
-								+ getTextResourceService().getText(
-										MESSAGE_DASHES )
-								+ getTextResourceService().getText(
-										MESSAGE_MODULE_H_TABLE_NOT_VALIDATED,
-										xmlFile.getName(),
-										rows,
-										configurationService
-												.getTableRowsLimit(),
-										schemaLocation.getName(), occurs[0],
-										occurs[1] ) );
-				return false;
-			} else if ( occurs[0] == 0 && occurs[1] == Integer.MAX_VALUE ) {
-				return true;
-			} else {
-				getMessageService().logError(
-						getTextResourceService().getText( MESSAGE_MODULE_H )
-								+ getTextResourceService().getText(
-										MESSAGE_DASHES )
-								+ getTextResourceService().getText(
-										MESSAGE_MODULE_H_TABLE_NOT_VALIDATED,
-										xmlFile.getName(),
-										rows,
-										configurationService
-												.getTableRowsLimit(),
-										schemaLocation.getName(), occurs[0],
-										occurs[1] ) );
-				return false;
-			}
-
-		} else {
+		Range range = getRange( schemaLocation );
+		if ( range.min == 0 && range.max == UNBOUNDED ) {
 			return true;
+		} else {
+			int limit = configurationService.getTableRowsLimit();
+			return range.min <= limit && range.max <= limit;
 		}
 	}
 
-	private int getRowCount( File xmlFile ) throws SAXException, IOException
-	{
-		reader = XMLReaderFactory.createXMLReader();
-		reader.setFeature( "http://xml.org/sax/features/validation", false );
-		reader.setFeature( "http://apache.org/xml/features/validation/schema",
-				false );
-		CountRowsHandler countRowsHandler = new CountRowsHandler();
-		reader.setContentHandler( countRowsHandler );
-		reader.parse( new InputSource( new FileInputStream( xmlFile ) ) );
-		return countRowsHandler.getRows();
-	}
+	// private int getRowCount(File xmlFile) throws SAXException, IOException
+	// {
+	// reader = XMLReaderFactory.createXMLReader();
+	// reader.setFeature( "http://xml.org/sax/features/validation", false );
+	// reader.setFeature( "http://apache.org/xml/features/validation/schema",
+	// false );
+	// CountRowsHandler countRowsHandler = new CountRowsHandler();
+	// reader.setContentHandler( countRowsHandler );
+	// reader.parse( new InputSource(new FileInputStream(xmlFile)) );
+	// return countRowsHandler.getRows();
+	// }
 
-	private int[] getOccurs( File xsdFile ) throws SAXException, IOException
+	private Range getRange( File xsdFile ) throws SAXException, IOException
 	{
-		int[] occurs = new int[] { 1, 1 };
-		OccursHandler occursHandler = new OccursHandler();
+		Range range = new Range();
+		RangeHandler rangeHandler = new RangeHandler();
 		try {
 			reader = XMLReaderFactory.createXMLReader();
 			reader.setFeature( "http://xml.org/sax/features/validation", false );
 			reader.setFeature(
 					"http://apache.org/xml/features/validation/schema", false );
-			reader.setContentHandler( occursHandler );
+			reader.setContentHandler( rangeHandler );
 			reader.parse( new InputSource( new FileInputStream( xsdFile ) ) );
 		} catch ( BreakException e ) {
-			occurs = occursHandler.getOccurs();
+			range = rangeHandler.getRange();
 		}
-		return occurs;
+		return range;
 	}
 
 	private class ValidationErrorHandler implements ErrorHandler
@@ -341,11 +312,9 @@ public class ValidationHcontentModuleImpl extends ValidationModuleImpl
 		}
 	}
 
-	private class OccursHandler extends DefaultHandler
+	private class RangeHandler extends DefaultHandler
 	{
-		private int	minOccurs	= 0;
-
-		private int	maxOccurs	= 0;
+		private Range	range	= new Range();
 
 		@Override
 		public void startElement( String uri, String localName, String qName,
@@ -353,22 +322,23 @@ public class ValidationHcontentModuleImpl extends ValidationModuleImpl
 		{
 			if ( "row".equals( attributes.getValue( "name" ) ) ) {
 				if ( "rowType".equals( attributes.getValue( "type" ) ) ) {
-					String minOccurs = attributes.getValue( "minOccurs" );
-					this.minOccurs = getOccurs( minOccurs );
-					this.maxOccurs = getOccurs( minOccurs );
+					this.range.min = getRange( attributes
+							.getValue( "minOccurs" ) );
+					this.range.max = getRange( attributes
+							.getValue( "maxOccurs" ) );
 					throw new BreakException();
 				}
 			}
 		}
 
-		private int getOccurs( String attributeValue )
+		private int getRange( String attributeValue )
 		{
 			int value = 1;
 			if ( attributeValue == null ) {
 				return value;
 			}
 			if ( attributeValue.equals( "unbounded" ) ) {
-				return Integer.MAX_VALUE;
+				return -1;
 			}
 			try {
 				value = Integer.valueOf( attributeValue ).intValue();
@@ -377,9 +347,9 @@ public class ValidationHcontentModuleImpl extends ValidationModuleImpl
 			return value;
 		}
 
-		public int[] getOccurs()
+		public Range getRange()
 		{
-			return new int[] { minOccurs, maxOccurs };
+			return range;
 
 		}
 	}
@@ -392,5 +362,12 @@ public class ValidationHcontentModuleImpl extends ValidationModuleImpl
 		 */
 		private static final long	serialVersionUID	= 1L;
 
+	}
+
+	private class Range
+	{
+		public int	min	= 1;
+
+		public int	max	= 1;
 	}
 }
