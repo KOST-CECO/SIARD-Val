@@ -200,6 +200,23 @@ public class ValidationHcontentModuleImpl extends ValidationModuleImpl
 			return true;
 		} else {
 			int limit = configurationService.getTableRowsLimit();
+			if ( range.max > limit ) {
+				getMessageService().logInfo(
+						getTextResourceService().getText( MESSAGE_MODULE_H )
+								+ getTextResourceService().getText(
+										MESSAGE_DASHES )
+								+ getTextResourceService().getText(
+										MESSAGE_MODULE_H_TABLE_NOT_VALIDATED1,
+										xmlFile.getName() ) );
+				getMessageService().logError(
+						getTextResourceService().getText( MESSAGE_MODULE_H )
+								+ getTextResourceService().getText(
+										MESSAGE_DASHES )
+								+ getTextResourceService().getText(
+										MESSAGE_MODULE_H_TABLE_NOT_VALIDATED2,
+										range.max, limit,
+										schemaLocation.getName() ) );
+			}
 			return range.min <= limit && range.max <= limit;
 		}
 	}
