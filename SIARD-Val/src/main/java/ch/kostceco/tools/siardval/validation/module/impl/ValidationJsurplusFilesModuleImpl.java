@@ -18,6 +18,7 @@ Boston, MA 02110-1301 USA or see <http://www.gnu.org/licenses/>.
 package ch.kostceco.tools.siardval.validation.module.impl;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.Iterator;
@@ -179,13 +180,13 @@ public class ValidationJsurplusFilesModuleImpl extends ValidationModuleImpl
 		if ( valid ) {
 			File[] tables = schema.listFiles();
 			for ( File table : tables ) {
-				valid = valid && validateTable( table, xPath, doc );
+				valid = validateTable( table, xPath, doc ) && valid;
 			}
 		}
 		return valid;
 	}
 
-	private boolean validateTable( File table, XPath xPath, Document doc )
+	private boolean validateTable( final File table, XPath xPath, Document doc )
 			throws XPathExpressionException
 	{
 		boolean valid = true;
@@ -226,6 +227,68 @@ public class ValidationJsurplusFilesModuleImpl extends ValidationModuleImpl
 								+ getTextResourceService().getText(
 										MESSAGE_MODULE_J_INVALID_ENTRY ) + " "
 								+ table.getName() + "." );
+			}
+		}
+		if ( valid ) {
+			File[] files = table.listFiles( new FileFilter() {
+				@Override
+				public boolean accept( File file )
+				{
+					String[] parts = file.getName().split( "[.]" );
+					String name = parts[0];
+					return !name.equals( table.getName() );
+				}
+			} );
+			for ( File file : files ) {
+				valid = validateFile( table, file, xPath, doc ) && valid;
+			}
+		}
+		return valid;
+	}
+
+	private boolean validateFile( File folder, File file, XPath xPath,
+			Document doc ) throws XPathExpressionException
+	{
+		boolean valid = true;
+		StringBuilder builder = new StringBuilder(
+				"//siard:table[siard:folder='" ).append( folder.getName()
+				+ "']/siard:columns/siard:column[siard:folder='"
+				+ file.getName() + "']/text()" );
+		XPathExpression expression = xPath.compile( builder.toString() );
+		Node node = (Node) expression.evaluate( doc, XPathConstants.NODE );
+		if ( node == null ) {
+			valid = false;
+			File table = new File( file.getParent() );
+			if ( file.isFile() ) {
+				getMessageService().logError(
+						getTextResourceService().getText( MESSAGE_MODULE_J )
+								+ getTextResourceService().getText(
+										MESSAGE_DASHES )
+								+ table.getName()
+								+ " "
+								+ getTextResourceService().getText(
+										MESSAGE_MODULE_J_INVALID_FILE ) + " "
+								+ file.getName() + "." );
+			} else if ( file.isDirectory() ) {
+				getMessageService().logError(
+						getTextResourceService().getText( MESSAGE_MODULE_J )
+								+ getTextResourceService().getText(
+										MESSAGE_DASHES )
+								+ table.getName()
+								+ " "
+								+ getTextResourceService().getText(
+										MESSAGE_MODULE_J_INVALID_FOLDER ) + " "
+								+ file.getName() + "." );
+			} else {
+				getMessageService().logError(
+						getTextResourceService().getText( MESSAGE_MODULE_J )
+								+ getTextResourceService().getText(
+										MESSAGE_DASHES )
+								+ table.getName()
+								+ " "
+								+ getTextResourceService().getText(
+										MESSAGE_MODULE_J_INVALID_ENTRY ) + " "
+								+ file.getName() + "." );
 			}
 		}
 		return valid;
