@@ -146,32 +146,31 @@ public class ValidationCheaderModuleImpl extends ValidationModuleImpl implements
 			Zip64File zipfile = new Zip64File( siardDatei );
 			List<FileEntry> fileEntryList = zipfile.getListFileEntries();
 			for ( FileEntry fileEntry : fileEntryList ) {
-				if ( !fileEntry.isDirectory() ) {
-					byte[] buffer = new byte[8192];
-					// Scheibe die Datei an den richtigen Ort respektive in den
-					// richtigen Ordner der ggf angelegt werden muss.
-					EntryInputStream eis = zipfile
-							.openEntryInputStream( fileEntry.getName() );
-					File newFile = new File( tmpDir, fileEntry.getName() );
-					File parent = newFile.getParentFile();
-					if ( !parent.exists() ) {
-						parent.mkdirs();
-					}
-					FileOutputStream fos = new FileOutputStream( newFile );
-					for ( int iRead = eis.read( buffer ); iRead >= 0; iRead = eis
-							.read( buffer ) ) {
-						fos.write( buffer, 0, iRead );
-					}
-					eis.close();
-					fos.close();
-					// Festhalten von metadata.xml und metadata.xsd
-					if ( newFile.getName().endsWith( METADATA ) ) {
-						xmlToValidate = newFile;
-					}
-					if ( newFile.getName().endsWith( XSD_METADATA ) ) {
-						xsdToValidate = newFile;
-					}
+				byte[] buffer = new byte[8192];
+				// Scheibe die Datei an den richtigen Ort respektive in den
+				// richtigen Ordner der ggf angelegt werden muss.
+				EntryInputStream eis = zipfile.openEntryInputStream( fileEntry
+						.getName() );
+				File newFile = new File( tmpDir, fileEntry.getName() );
+				File parent = newFile.getParentFile();
+				if ( !parent.exists() ) {
+					parent.mkdirs();
 				}
+				FileOutputStream fos = new FileOutputStream( newFile );
+				for ( int iRead = eis.read( buffer ); iRead >= 0; iRead = eis
+						.read( buffer ) ) {
+					fos.write( buffer, 0, iRead );
+				}
+				eis.close();
+				fos.close();
+				// Festhalten von metadata.xml und metadata.xsd
+				if ( newFile.getName().endsWith( METADATA ) ) {
+					xmlToValidate = newFile;
+				}
+				if ( newFile.getName().endsWith( XSD_METADATA ) ) {
+					xsdToValidate = newFile;
+				}
+
 			}
 			if ( xmlToValidate != null && xsdToValidate != null ) {
 				// der andere Fall wurde bereits oben abgefangen
