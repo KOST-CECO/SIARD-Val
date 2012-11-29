@@ -31,6 +31,7 @@ public interface MessageConstants
 	String	ERROR_PARAMETER_USAGE							= "error.parameter.usage";
 	String	ERROR_LOGDIRECTORY_NODIRECTORY					= "error.logdirectory.nodirectory";
 	String	ERROR_LOGDIRECTORY_NOTWRITABLE					= "error.logdirectory.notwritable";
+	String	ERROR_WORKDIRECTORY_NOTWRITABLE					= "error.workdirectory.notwritable";
 	String	ERROR_SIARDFILE_FILENOTEXISTING					= "error.siardfile.filenotexisting";
 	String	ERROR_LOGGING_NOFILEAPPENDER					= "error.logging.nofileappender";
 

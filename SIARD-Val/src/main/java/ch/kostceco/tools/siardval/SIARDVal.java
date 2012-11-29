@@ -119,6 +119,31 @@ public class SIARDVal implements MessageConstants
 			System.exit( 1 );
 		}
 
+		// Informationen zum Arbeitsverzeichnis holen
+		String pathToWorkDir = SIARDVal.getConfigurationService()
+		.getPathToWorkDir();
+		/*
+		 * Nicht vergessen in
+		 * "src/main/resources/config/applicationContext-services.xml" beim
+		 * entsprechenden Modul die property anzugeben: <property
+		 * name="configurationService" ref="configurationService" />
+		 */
+		
+		File tmpDir = new File( pathToWorkDir );
+		if ( !tmpDir.exists() ) {
+			tmpDir.mkdir();
+		}
+
+		
+		// Im workverzeichnis besteht kein Schreibrecht
+		if ( !tmpDir.canWrite() ) {
+			LOGGER.logInfo( SIARDVal.getTextResourceService().getText(
+					ERROR_WORKDIRECTORY_NOTWRITABLE ) );
+			LOGGER.logInfo( SIARDVal.getTextResourceService().getText(
+					MESSAGE_VALIDATION_INTERRUPTED ) );
+			System.exit( 1 );
+		}
+
 		// Ueberprüfung des 1. Parameters (SIARD-Datei): existiert die Datei?
 		if ( !siardDatei.exists() ) {
 			LOGGER.logInfo( SIARDVal.getTextResourceService().getText(
@@ -189,9 +214,6 @@ public class SIARDVal implements MessageConstants
 		}
 
 		// Löschen des Arbeitsverzeichnisses, falls eines angelegt wurde
-
-		String pathToWorkDir = SIARDVal.getConfigurationService()
-				.getPathToWorkDir();
 		File workDir = new File( pathToWorkDir );
 		if ( workDir.exists() ) {
 			Util.deleteDir( workDir );
