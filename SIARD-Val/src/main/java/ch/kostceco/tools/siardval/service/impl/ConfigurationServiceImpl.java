@@ -67,18 +67,18 @@ public class ConfigurationServiceImpl implements ConfigurationService
 				}
 				config = new XMLConfiguration( path );
 			} catch ( ConfigurationException e ) {
-				LOGGER.logError( getTextResourceService().getText(
+				LOGGER.logInfo( getTextResourceService().getText(
 						MESSAGE_CONFIGURATION_ERROR_1 ) );
 				// Das Konfigurations-File konnte nicht gelesen werden.
-				LOGGER.logError( getTextResourceService().getText(
+				LOGGER.logInfo( getTextResourceService().getText(
 						MESSAGE_CONFIGURATION_ERROR_2 ) );
 				// Im gleichen Verzeichnis wie das ".jar"-File muss sich ein
 				// Ordner namens "configuration" befinden.
-				LOGGER.logError( getTextResourceService().getText(
+				LOGGER.logInfo( getTextResourceService().getText(
 						MESSAGE_CONFIGURATION_ERROR_3 ) );
 				// Im configuration-Ordner wiederum muss die Konfigurationsdatei
 				// "SIARDVal.conf.xml" liegen.
-				System.exit( 0 );
+				System.exit( 1 );
 			}
 		}
 		return config;

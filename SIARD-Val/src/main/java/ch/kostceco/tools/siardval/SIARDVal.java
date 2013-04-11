@@ -18,7 +18,10 @@ Boston, MA 02110-1301 USA or see <http://www.gnu.org/licenses/>.
 package ch.kostceco.tools.siardval;
 
 import java.io.File;
+//import java.net.URL;
 
+//import org.apache.commons.configuration.ConfigurationException;
+//import org.apache.commons.configuration.XMLConfiguration;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -101,6 +104,18 @@ public class SIARDVal implements MessageConstants
 
 		// Ueberprüfung des 2. Parameters (Log-Verzeichnis)
 		File directoryOfLogfile = new File( args[1] );
+		if ( !directoryOfLogfile.exists() ) {
+			directoryOfLogfile.mkdir();
+		}
+
+		// Im Logverzeichnis besteht kein Schreibrecht
+		if ( !directoryOfLogfile.canWrite() ) {
+			LOGGER.logInfo( SIARDVal.getTextResourceService().getText(
+					ERROR_LOGDIRECTORY_NOTWRITABLE, directoryOfLogfile ) );
+			LOGGER.logInfo( SIARDVal.getTextResourceService().getText(
+					MESSAGE_VALIDATION_INTERRUPTED ) );
+			System.exit( 1 );
+		}
 
 		if ( !directoryOfLogfile.isDirectory() ) {
 			LOGGER.logInfo( SIARDVal.getTextResourceService().getText(
@@ -110,35 +125,25 @@ public class SIARDVal implements MessageConstants
 			System.exit( 1 );
 		}
 
-		// Im Logverzeichnis besteht kein Schreibrecht
-		if ( !directoryOfLogfile.canWrite() ) {
-			LOGGER.logInfo( SIARDVal.getTextResourceService().getText(
-					ERROR_LOGDIRECTORY_NOTWRITABLE ) );
-			LOGGER.logInfo( SIARDVal.getTextResourceService().getText(
-					MESSAGE_VALIDATION_INTERRUPTED ) );
-			System.exit( 1 );
-		}
-
 		// Informationen zum Arbeitsverzeichnis holen
 		String pathToWorkDir = SIARDVal.getConfigurationService()
-		.getPathToWorkDir();
+				.getPathToWorkDir();
 		/*
 		 * Nicht vergessen in
 		 * "src/main/resources/config/applicationContext-services.xml" beim
 		 * entsprechenden Modul die property anzugeben: <property
 		 * name="configurationService" ref="configurationService" />
 		 */
-		
+
 		File tmpDir = new File( pathToWorkDir );
 		if ( !tmpDir.exists() ) {
 			tmpDir.mkdir();
 		}
 
-		
 		// Im workverzeichnis besteht kein Schreibrecht
 		if ( !tmpDir.canWrite() ) {
 			LOGGER.logInfo( SIARDVal.getTextResourceService().getText(
-					ERROR_WORKDIRECTORY_NOTWRITABLE ) );
+					ERROR_WORKDIRECTORY_NOTWRITABLE, tmpDir ) );
 			LOGGER.logInfo( SIARDVal.getTextResourceService().getText(
 					MESSAGE_VALIDATION_INTERRUPTED ) );
 			System.exit( 1 );
