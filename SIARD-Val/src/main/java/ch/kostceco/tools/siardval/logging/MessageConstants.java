@@ -1,6 +1,6 @@
 /*== SIARD-Val ===================================================================================
 The SIARD-Val application is used for validate SIARD-Files. 
-Copyright (C) 2012 Claire Röthlisberger (KOST-CECO), Christian Eugster, Olivier Debenath, 
+Copyright (C) 2012-2013 Claire Röthlisberger (KOST-CECO), Christian Eugster, Olivier Debenath, 
 Peter Schneider (Staatsarchiv Aargau)
 --------------------------------------------------------------------------------------------------
 SIARD-Val is a development of the KOST-CECO. All rights rest with the KOST-CECO. 
@@ -108,29 +108,19 @@ public interface MessageConstants
 	String	MESSAGE_MODULE_D_MISSING_FILE					= "message.module.d.missing.file";
 
 	// Modul E Meldungen
-	String	MESSAGE_MODULE_E_INVALID_VALIDATION_CONTEXT		= "message.module.e.missing.properties";
 	String	MESSAGE_MODULE_E_PROPERTIES_ERROR				= "message.module.e.properties.error";
 	String	MESSAGE_MODULE_E_PATH_ERROR						= "message.module.e.path.error";
 	String	MESSAGE_MODULE_E_EXTRACT_ERROR					= "message.module.e.extract.error";
 	String	MESSAGE_MODULE_E_METADATA_ACCESS_ERROR			= "message.module.e.metadata.access.error";
 	String	MESSAGE_MODULE_E_XML_ACCESS_ERROR				= "message.module.e.xml.access.error";
 	String	MESSAGE_MODULE_E_PREVALIDATION_ERROR			= "message.module.e.prevalidation.error";
-	String	MESSAGE_MODULE_E_MISSING_SIARD_TABLES			= "message.module.e.missing.siard.tables";
 	String	MESSAGE_MODULE_E_INVALID_ATTRIBUTE_COUNT		= "message.module.e.attribute.count.validation.failed";
 	String	MESSAGE_MODULE_E_INVALID_ATTRIBUTE_OCCURRENCE	= "message.module.e.attribute.occurrence.validation.failed";
-	String	MESSAGE_MODULE_E_INVALID_ATTRIBUTE_SEQUENCE		= "message.module.e.attribute.sequence.validation.failed";
 	String	MESSAGE_MODULE_E_INVALID_ATTRIBUTE_TYPE			= "message.module.e.attribute.type.validation.failed";
-	String	MESSAGE_MODULE_E_VALIDATION_SKIPPED				= "message.module.e.validation.skipped";
 
 	// Modul F Meldungen
-	String	MESSAGE_MODULE_F_INVALID_VALIDATION_CONTEXT		= "message.module.f.missing.properties";
 	String	MESSAGE_MODULE_F_PROPERTIES_ERROR				= "message.module.f.properties.error";
 	String	MESSAGE_MODULE_F_PATH_ERROR						= "message.module.f.path.error";
-	String	MESSAGE_MODULE_F_EXTRACT_ERROR					= "message.module.f.extract.error";
-	String	MESSAGE_MODULE_F_METADATA_ACCESS_ERROR			= "message.module.f.metadata.access.error";
-	String	MESSAGE_MODULE_F_XML_ACCESS_ERROR				= "message.module.f.xml.access.error";
-	String	MESSAGE_MODULE_F_PREVALIDATION_ERROR			= "message.module.f.prevalidation.error";
-	String	MESSAGE_MODULE_F_MISSING_SIARD_TABLES			= "message.module.f.missing.siard.tables";
 	String	MESSAGE_MODULE_F_INVALID_TABLE_XML_FILES		= "message.module.f.invalid.table.xml.files";
 	String	MESSAGE_MODULE_F_INVALID_TABLE_XSD_FILES		= "message.module.f.invalid.table.xsd.files";
 
@@ -147,7 +137,6 @@ public interface MessageConstants
 	String	MESSAGE_MODULE_H_TABLE_NOT_VALIDATED2			= "message.module.h.table.not.validated2";
 
 	// Modul I Meldungen
-	String	MESSAGE_MODULE_I_NOTALLOWEDPUID					= "message.module.i.notallowedpuid";
 	String	MESSAGE_MODULE_I_NOTALLOWEDEXT					= "message.module.i.notallowedext";
 
 	// Modul J Meldungen

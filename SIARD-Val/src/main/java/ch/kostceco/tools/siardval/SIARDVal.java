@@ -1,6 +1,6 @@
 /*== SIARD-Val ===================================================================================
-The SIARD-Val v0.9.0 application is used for validate SIARD-Files. 
-Copyright (C) 2012 Claire Röthlisberger (KOST-CECO), Christian Eugster, Olivier Debenath, 
+The SIARD-Val v1.0.0 application is used for validate SIARD-Files. 
+Copyright (C) 2012-2013 Claire Röthlisberger (KOST-CECO), Christian Eugster, Olivier Debenath, 
 Peter Schneider (Staatsarchiv Aargau)
 --------------------------------------------------------------------------------------------------
 SIARD-Val is a development of the KOST-CECO. All rights rest with the KOST-CECO. 
@@ -18,10 +18,6 @@ Boston, MA 02110-1301 USA or see <http://www.gnu.org/licenses/>.
 package ch.kostceco.tools.siardval;
 
 import java.io.File;
-//import java.net.URL;
-
-//import org.apache.commons.configuration.ConfigurationException;
-//import org.apache.commons.configuration.XMLConfiguration;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
