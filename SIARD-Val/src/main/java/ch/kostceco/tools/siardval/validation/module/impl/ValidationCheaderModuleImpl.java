@@ -146,29 +146,48 @@ public class ValidationCheaderModuleImpl extends ValidationModuleImpl implements
 			Zip64File zipfile = new Zip64File( siardDatei );
 			List<FileEntry> fileEntryList = zipfile.getListFileEntries();
 			for ( FileEntry fileEntry : fileEntryList ) {
-				byte[] buffer = new byte[8192];
-				// Scheibe die Datei an den richtigen Ort respektive in den
-				// richtigen Ordner der ggf angelegt werden muss.
-				EntryInputStream eis = zipfile.openEntryInputStream( fileEntry
-						.getName() );
-				File newFile = new File( tmpDir, fileEntry.getName() );
-				File parent = newFile.getParentFile();
-				if ( !parent.exists() ) {
-					parent.mkdirs();
-				}
-				FileOutputStream fos = new FileOutputStream( newFile );
-				for ( int iRead = eis.read( buffer ); iRead >= 0; iRead = eis
-						.read( buffer ) ) {
-					fos.write( buffer, 0, iRead );
-				}
-				eis.close();
-				fos.close();
-				// Festhalten von metadata.xml und metadata.xsd
-				if ( newFile.getName().endsWith( METADATA ) ) {
-					xmlToValidate = newFile;
-				}
-				if ( newFile.getName().endsWith( XSD_METADATA ) ) {
-					xsdToValidate = newFile;
+				if ( !fileEntry.isDirectory() ) {
+					byte[] buffer = new byte[8192];
+					// Scheibe die Datei an den richtigen Ort respektive in den
+					// richtigen Ordner der ggf angelegt werden muss.
+					EntryInputStream eis = zipfile
+							.openEntryInputStream( fileEntry.getName() );
+					File newFile = new File( tmpDir, fileEntry.getName() );
+					File parent = newFile.getParentFile();
+					if ( !parent.exists() ) {
+						parent.mkdirs();
+					}
+					FileOutputStream fos = new FileOutputStream( newFile );
+					for ( int iRead = eis.read( buffer ); iRead >= 0; iRead = eis
+							.read( buffer ) ) {
+						fos.write( buffer, 0, iRead );
+					}
+					eis.close();
+					fos.close();
+					// Festhalten von metadata.xml und metadata.xsd
+					if ( newFile.getName().endsWith( METADATA ) ) {
+						xmlToValidate = newFile;
+					}
+					if ( newFile.getName().endsWith( XSD_METADATA ) ) {
+						xsdToValidate = newFile;
+					}
+
+				} else {
+					// Scheibe den Ordner wenn noch nicht vorhanden an den
+					// richtigen Ort respektive in den
+					// richtigen Ordner der ggf angelegt werden muss.
+					// Dies muss gemacht werden, damit auch leere Ordner ins
+					// Work geschrieben werden. Diese werden danach im J als
+					// Fehler angegeben
+					EntryInputStream eis = zipfile
+							.openEntryInputStream( fileEntry.getName() );
+					File newFolder = new File( tmpDir, fileEntry.getName() );
+					if ( !newFolder.exists() ) {
+						 File parent = newFolder.getParentFile(); if (
+						 !parent.exists() ) { parent.mkdirs(); }
+						 newFolder.mkdirs();
+					}
+					eis.close();
 				}
 
 			}

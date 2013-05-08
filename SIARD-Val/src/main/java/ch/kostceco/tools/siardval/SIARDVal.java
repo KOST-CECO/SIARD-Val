@@ -132,6 +132,11 @@ public class SIARDVal implements MessageConstants
 		 */
 
 		File tmpDir = new File( pathToWorkDir );
+		
+		// bestehendes Workverzeichnis ggf. löschen und wieder anlegen
+		if ( tmpDir.exists() ) {
+			Util.deleteDir( tmpDir );
+		}
 		if ( !tmpDir.exists() ) {
 			tmpDir.mkdir();
 		}
